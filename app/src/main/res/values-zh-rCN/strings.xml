@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">课程表for工大</string>
+    <string name="ShowWeekView">选择周次</string>
+    <string name="Teacher">教师</string>
+    <string name="finish">退出</string>
+</resources>
