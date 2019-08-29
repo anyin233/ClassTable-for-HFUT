@@ -6,7 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {ClassTable.class}, version = 1, exportSchema = false)
+import com.zse233.classtable.MyClassTable;
+
+@Database(entities = {MyClassTable.class}, version = 1, exportSchema = false)
 public abstract class ClassTableDatabase extends RoomDatabase {
     public abstract ClassTableDao getClassTableDao();
 

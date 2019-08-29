@@ -1,5 +1,6 @@
 package com.zse233.classtable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -62,10 +63,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.refresh: {
+            case R.id.changeWeek: {
                 weekView.isShow(true)
                         .setBackgroundColor(0xFFFFFF);
                 return true;
+            }
+            case R.id.login: {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
             case R.id.end: {
                 finish();
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         timetableView = findViewById(R.id.id_timetableView);
 
         //设置周次选择属性
+        weekView.setBackgroundColor(0);
         weekView.curWeek(1)
                 .callback(new IWeekView.OnWeekItemClickedListener() {
                     @Override

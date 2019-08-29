@@ -22,9 +22,9 @@ public interface ClassTableDao {
     @Delete
     void deleteClassTable(MyClassTable... myClassTables);
 
-    @Query("DELETE FROM ClassTable")
+    @Query("DELETE FROM MyClassTable")
     void clearAll();
 
-    @Query("SELECT * FROM ClassTable ORDER BY Id DESC")
+    @Query("SELECT * FROM MyClassTable ORDER BY Id DESC")
     LiveData<List<MyClassTable>> getAllClassTable();
 }

@@ -18,6 +18,10 @@ public class ClassTable {
         this.Id = myClassTable.getA_Id();
     }
 
+    public void setId(int id) {
+        Id = id;
+    }
+
     public int getId() {
         return Id;
     }
