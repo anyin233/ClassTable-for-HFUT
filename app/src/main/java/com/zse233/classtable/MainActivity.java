@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         timetableView = findViewById(R.id.id_timetableView);
         ClassTableRepo classTableRepo = new ClassTableRepo();
         String userKey = classTableRepo.requestUserKey("2018214388", "YYW20011001yyw");
-        classes = classTableRepo.prase(classTableRepo.requestClassTable(userKey, 12));
+        classes = classTableRepo.parse(classTableRepo.requestClassTable(userKey, 12));
         Log.d("TError", userKey);
         timetableView.source(classes)
                 .curWeek(1)

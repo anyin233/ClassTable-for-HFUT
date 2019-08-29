@@ -136,7 +136,7 @@ public class ClassTableRepo {
     }
 
 
-    public List<MyClassTable> prase(String testJson) {
+    public List<MyClassTable> parse(String testJson) {
         if (testJson == null) {
             return new ArrayList<>();
         }
