@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     .showView();
         }*/
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String format_date = dateFormat.format(date);
         SharedPreferences shp = getSharedPreferences("first_day", MODE_PRIVATE);
         String startDay = shp.getString("start", format_date);
@@ -64,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
             start = new Date();
             Log.d("TError", "" + e.getMessage());
         }
-
         week_now = (int) ((date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
         week_now /= 7;
+        ++week_now;
         if (week_now < 1) {
             week_now = 1;
         }
-        initTimetableView();
+
 
     }
 
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     .showView();
             timetableView.updateDateView();
         }
+        initTimetableView();
         timetableView.onDateBuildListener()
                 .onHighLight();
     }

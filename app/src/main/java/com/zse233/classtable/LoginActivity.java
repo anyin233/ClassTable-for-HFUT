@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.Getting, Toast.LENGTH_SHORT);
+                toast.show();
                 ClassTableRepo classTableRepo = new ClassTableRepo();
                 ClassDatabaseRepo classDatabaseRepo = new ClassDatabaseRepo(getApplicationContext());
                 classViewMode.clear();
@@ -41,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 editor.putString("start", classTableRepo.requireStartDay(userKey));
                 editor.apply();//将开学日期写入文件
+                Toast toast_1 = Toast.makeText(getApplicationContext(), R.string.getting_done, Toast.LENGTH_SHORT);
+                toast_1.show();
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, MainActivity.class);
                 startActivity(intent);

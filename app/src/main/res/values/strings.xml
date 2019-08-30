@@ -7,4 +7,6 @@
     <string name="password">Password</string>
     <string name="OK">OK</string>
     <string name="Notice" translatable="false">获取课表的时候可能会卡死，请耐心等待跳转</string>
+    <string name="Getting">Getting Coureses</string>
+    <string name="getting_done">Done</string>
 </resources>
