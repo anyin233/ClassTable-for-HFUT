@@ -1,6 +1,5 @@
 package com.zse233.classtable.database;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -25,6 +24,6 @@ public interface ClassTableDao {
     @Query("DELETE FROM MyClassTable")
     void clearAll();
 
-    @Query("SELECT * FROM MyClassTable ORDER BY Id DESC")
-    LiveData<List<MyClassTable>> getAllClassTable();
+    @Query("SELECT * FROM MyClassTable")
+    List<MyClassTable> getAllClassTable();
 }

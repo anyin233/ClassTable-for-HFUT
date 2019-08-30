@@ -1,6 +1,7 @@
 package com.zse233.classtable;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,31 +19,57 @@ import com.zhuangfei.timetable.listener.IWeekView;
 import com.zhuangfei.timetable.model.Schedule;
 import com.zhuangfei.timetable.view.WeekView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TimetableView timetableView;
     WeekView weekView;
-
     ConstraintLayout layout;
 
     List<MyClassTable> classes;
     int week = -1;
-
+    int week_now = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         timetableView = findViewById(R.id.id_timetableView);
-        ClassTableRepo classTableRepo = new ClassTableRepo();
-        String userKey = classTableRepo.requestUserKey("2018214388", "YYW20011001yyw");
-        classes = classTableRepo.parse(classTableRepo.requestClassTable(userKey, 12));
-        Log.d("TError", userKey);
-        timetableView.source(classes)
-                .curWeek(1)
-                .showView();
+        //viewMode = ViewModelProviders.of(this).get(ClassViewMode.class);
+        //ClassDatabaseRepo classDatabaseRepo =new ClassDatabaseRepo(getApplicationContext());
+        /*classes = classDatabaseRepo.getAllLive();
+        if(classes == null){
+            List<MyClassTable> empty = new ArrayList<>();
+            timetableView.source(empty)
+                    .curWeek(1)
+                    .showView();
+        }else{
+            timetableView.source(classes)
+                    .curWeek(1)
+                    .showView();
+        }*/
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        String format_date = dateFormat.format(date);
+        SharedPreferences shp = getSharedPreferences("first_day", MODE_PRIVATE);
+        String startDay = shp.getString("start", format_date);
+        Date start;
+        try {
+            start = dateFormat.parse(startDay);
+        } catch (ParseException e) {
+            start = new Date();
+            Log.d("TError", "" + e.getMessage());
+        }
 
+        week_now = (int) ((date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+        week_now /= 7;
+        if (week_now < 1) {
+            week_now = 1;
+        }
         initTimetableView();
 
     }
@@ -50,9 +77,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        ClassDatabaseRepo classDatabaseRepo = new ClassDatabaseRepo(getApplicationContext());
+        classes = classDatabaseRepo.getAllLive();
+
+        if (classes == null) {
+            List<MyClassTable> empty = new ArrayList<>();
+            timetableView.source(empty)
+                    .curWeek(week_now)
+                    .showView();
+            timetableView.updateDateView();
+
+        } else {
+            timetableView.source(classes)
+                    .curWeek(1)
+                    .showView();
+            timetableView.updateDateView();
+        }
         timetableView.onDateBuildListener()
                 .onHighLight();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
         //设置周次选择属性
         weekView.setBackgroundColor(0);
-        weekView.curWeek(1)
+        weekView.curWeek(week_now)
                 .callback(new IWeekView.OnWeekItemClickedListener() {
                     @Override
                     public void onWeekClicked(int week) {
@@ -103,8 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 .hideLeftLayout()
                 .showView();
 
-        timetableView.curWeek(1)
-                .curTerm("大三下学期")
+        timetableView.curWeek(week_now)
                 .callback(new ISchedule.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, List<Schedule> scheduleList) {
@@ -132,5 +175,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
+
 
 }

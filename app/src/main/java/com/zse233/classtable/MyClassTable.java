@@ -22,8 +22,9 @@ public class MyClassTable implements ScheduleEnable {
     private int day; //课程日期(周几)
     private int colorRandom = 0; //颜色参数
     private String Id; //课程Id
-    @PrimaryKey
     private int a_Id;
+    @PrimaryKey(autoGenerate = true)
+    private int key_id;
 
     public MyClassTable() {
 
@@ -42,6 +43,15 @@ public class MyClassTable implements ScheduleEnable {
         this.colorRandom = colorRandom;
         this.Id = Id;
         this.a_Id = a_Id;
+    }
+
+
+    public int getKey_id() {
+        return key_id;
+    }
+
+    public void setKey_id(int key_id) {
+        this.key_id = key_id;
     }
 
     public String getId() {

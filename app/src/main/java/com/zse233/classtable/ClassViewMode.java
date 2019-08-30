@@ -4,19 +4,20 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
 public class ClassViewMode extends AndroidViewModel {
     private ClassDatabaseRepo classDatabaseRepo;
+    private List<MyClassTable> myClassTables;
 
     public ClassViewMode(@NonNull Application application) {
         super(application);
         classDatabaseRepo = new ClassDatabaseRepo(application);
+        myClassTables = classDatabaseRepo.getAllLive();
     }
 
-    public LiveData<List<MyClassTable>> getAllLive() {
+    public List<MyClassTable> getAllLive() {
         return classDatabaseRepo.getAllLive();
     }
 
@@ -37,6 +38,6 @@ public class ClassViewMode extends AndroidViewModel {
     }
 
     public int getCount() {
-        return classDatabaseRepo == null ? 0 : getAllLive().getValue().size();
+        return classDatabaseRepo == null ? 0 : getAllLive().size();
     }
 }

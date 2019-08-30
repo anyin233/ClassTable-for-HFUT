@@ -32,6 +32,10 @@ dependencies {
     implementation group: 'com.squareup.okio', name: 'okio', version: '2.3.0'
     implementation 'androidx.room:room-runtime:2.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    debugImplementation 'com.idescout.sql:sqlscout-server:4.1'
+    releaseImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
 
 
 }
