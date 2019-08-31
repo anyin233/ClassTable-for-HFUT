@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
                 .showView();
 
         timetableView.curWeek(week_now)
+                .hideFlaglayout()
+                .maxSlideItem(11)
+                .isShowFlaglayout(false)
                 .callback(new ISchedule.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, List<Schedule> scheduleList) {
