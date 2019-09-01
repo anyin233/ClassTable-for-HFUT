@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:title="课表"
-        android:icon="@drawable/ic_view_comfy_black_24dp"
-        android:id="@+id/classTable" />
-    <item
-        android:title="成绩"
-        android:icon="@drawable/ic_filter_none_black_24dp"
-        android:id="@+id/score" />
+    <group android:checkableBehavior="single">
+        <item
+            android:title="课表"
+            android:icon="@drawable/ic_view_comfy_black_24dp"
+            android:id="@+id/classTable" />
+        <item
+            android:title="成绩"
+            android:icon="@drawable/ic_filter_none_black_24dp"
+            android:id="@+id/score" />
+    </group>
 
 </menu>

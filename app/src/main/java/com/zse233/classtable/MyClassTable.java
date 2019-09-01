@@ -138,7 +138,12 @@ public class MyClassTable implements ScheduleEnable {
         Schedule schedule = new Schedule();
         schedule.setColorRandom(getColorRandom());
         schedule.setDay(getDay());
-        schedule.setName(getName());
+        if (getName().length() > 10) {
+            schedule.setName(getName().substring(0, 10) + "...");
+            schedule.putExtras("O_name", getName());
+        } else {
+            schedule.setName(getName());
+        }
         schedule.setRoom(getRoom());
         schedule.setStart(getStart());
         schedule.setStep(getEnd() - getStart() + 1);

@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
                 drawer.closeDrawers();
                 return true;
             }
@@ -105,5 +104,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.fragment);
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavController navController = Navigation.findNavController(this, R.id.fragment);
+        if (navController.getCurrentDestination().getId() == R.id.scoreFragment) {
+            navController.navigate(R.id.homeFragment);
+        } else if (navController.getCurrentDestination().getId() == R.id.homeFragment) {
+            finish();
+        }
     }
 }

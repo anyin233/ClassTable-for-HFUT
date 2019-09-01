@@ -150,12 +150,14 @@ public class HomeFragment extends Fragment {
         for (Schedule bean : beans) {
             String name;
             if (bean.getName().length() > 7) {
-                name = bean.getName().substring(0, 7);
+                name = bean.getName().substring(0, 7) + "...";
             } else {
                 name = bean.getName();
             }
             str += name + " @ " + bean.getWeekList().toString() + "周\n";
         }
-        Snackbar.make(view, str, Snackbar.LENGTH_LONG);
+        Snackbar.make(view, str, Snackbar.LENGTH_LONG).show();
     }
+
+
 }

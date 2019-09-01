@@ -19,4 +19,6 @@
     <string name="room3">教室三</string>
     <string name="room4">教室四</string>
     <string name="room5">教室五</string>
+    <string name="home_fragment">课程表</string>
+    <string name="hello_blank_fragment">敬请期待ヾ(≧▽≦*)o</string>
 </resources>

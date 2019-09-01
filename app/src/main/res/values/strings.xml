@@ -25,7 +25,8 @@
     <string name="notice">3rd Party</string>
     <string name="icon">icon</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Under Construction</string>
+    <string name="score_fragment">Score</string>
+    <string name="home_fragment">Class Table</string>
 
 </resources>
