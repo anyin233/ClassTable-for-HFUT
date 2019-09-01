@@ -128,7 +128,6 @@ public class TableWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         final String action = intent.getAction();
-        int a = 0;
         if (UPDATE.equals(action)) {
             updateAppWidget(context, AppWidgetManager.getInstance(context), id);
         }

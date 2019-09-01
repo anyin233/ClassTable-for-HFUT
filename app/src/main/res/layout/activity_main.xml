@@ -6,32 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.124487005" />
-
-    <com.zhuangfei.timetable.TimetableView
-        android:id="@+id/id_timetableView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/app_white"
-        android:backgroundTint="@color/app_white"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/id_weekview"></com.zhuangfei.timetable.TimetableView>
-
-    <com.zhuangfei.timetable.view.WeekView
-        android:id="@+id/id_weekview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/weekview_white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav" />
 </androidx.constraintlayout.widget.ConstraintLayout>
