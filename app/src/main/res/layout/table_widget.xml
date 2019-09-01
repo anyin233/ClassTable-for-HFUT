@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/time_table"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#80F4F8F8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/class1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/class1"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/room1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/room1"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#80F4F8F8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/class2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/class2"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/room2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/room2"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#80F4F8F8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/class3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/class3"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/room3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/room3"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#80F4F8F8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/class4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/class4"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/room4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/room4"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#80F4F8F8"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/class5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/class5"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/room5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/room5"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+</LinearLayout>

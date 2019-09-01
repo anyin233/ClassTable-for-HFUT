@@ -1,6 +1,7 @@
 package com.zse233.classtable;
 
-import android.content.Context;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.zhuangfei.timetable.model.Schedule;
 import com.zhuangfei.timetable.model.ScheduleEnable;
@@ -10,18 +11,26 @@ import com.zse233.classtable.classbean.Teachers;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class MyClassTable implements ScheduleEnable {
     private String name; // 课程名称
-    private List<String> teachers; // 教师姓名
+    private String teachers; // 教师姓名
     private int start; //开始时间
     private int end; //结束时间
-    private List<Integer> weeklist; //课程周数
+    private String weeklist; //课程周数
     private String room; //教室
     private int day; //课程日期(周几)
     private int colorRandom = 0; //颜色参数
     private String Id; //课程Id
     private int a_Id;
-    private Context context;
+    @PrimaryKey(autoGenerate = true)
+    private int key_id;
+
+    public MyClassTable() {
+
+    }
+
+    ;
 
     public MyClassTable(String name, List<Teachers> teachers, int start, int end, String weeklist, List<Rooms> room, int day, int colorRandom, String Id, int a_Id) {
         this.name = name;
@@ -34,6 +43,15 @@ public class MyClassTable implements ScheduleEnable {
         this.colorRandom = colorRandom;
         this.Id = Id;
         this.a_Id = a_Id;
+    }
+
+
+    public int getKey_id() {
+        return key_id;
+    }
+
+    public void setKey_id(int key_id) {
+        this.key_id = key_id;
     }
 
     public String getId() {
@@ -52,9 +70,6 @@ public class MyClassTable implements ScheduleEnable {
         this.name = name;
     }
 
-    public List<String> getTeachers() {
-        return teachers;
-    }
 
     public int getStart() {
         return start;
@@ -72,9 +87,6 @@ public class MyClassTable implements ScheduleEnable {
         this.end = end;
     }
 
-    public List<Integer> getWeeklist() {
-        return weeklist;
-    }
 
     public String getRoom() {
         return room;
@@ -104,6 +116,23 @@ public class MyClassTable implements ScheduleEnable {
         this.a_Id = a_Id;
     }
 
+    public String getTeachers() {
+        return teachers;
+    }
+
+    public void setTeachers(String teachers) {
+        this.teachers = teachers;
+    }
+
+    public String getWeeklist() {
+        return weeklist;
+    }
+
+    public void setWeeklist(String weeklist) {
+        this.weeklist = weeklist;
+    }
+
+
     @Override
     public Schedule getSchedule() {
         Schedule schedule = new Schedule();
@@ -113,11 +142,11 @@ public class MyClassTable implements ScheduleEnable {
         schedule.setRoom(getRoom());
         schedule.setStart(getStart());
         schedule.setStep(getEnd() - getStart() + 1);
-        schedule.setTeacher(getTeachers().get(0));
-        schedule.setWeekList(getWeeklist());
-        if (getTeachers().size() > 1) {
-            for (int i = 1; i < getTeachers().size(); ++i) {
-                schedule.putExtras("Other Teacher " + String.valueOf(i + 1) + ": ", getTeachers().get(i));
+        schedule.setTeacher(procTeachers().size() == 0 ? "无" : procTeachers().get(0));
+        schedule.setWeekList(procWeeklist());
+        if (procTeachers().size() > 1) {
+            for (int i = 1; i < procTeachers().size(); ++i) {
+                schedule.putExtras("Other Teacher " + String.valueOf(i + 1) + ": ", procTeachers().get(i));
             }
         }
         return schedule;
@@ -127,34 +156,55 @@ public class MyClassTable implements ScheduleEnable {
     //重定义的setter
 
     public void setTeachers(List<Teachers> teachersList) {
-        if (this.teachers == null) {
-            this.teachers = new ArrayList<>();
-        }
+        StringBuilder sb = new StringBuilder();
         for (Teachers teacher : teachersList) {
-            this.teachers.add(teacher.getName());
+            sb.append(teacher.getName()).append("+");
         }
     }
 
-    public void setWeeklist(String weeklist) {
-        if (this.weeklist == null) {
-            this.weeklist = new ArrayList<>();
+    private List<String> procTeachers() {
+        if (teachers == null) {
+            return new ArrayList<>();
         }
+        List<String> teacherList = new ArrayList<>();
+        int start = 0, end = 0;
+        for (int i = 0; i < teachers.length(); ++i) {
+            if (teachers.charAt(i) != '+') {
+                ++end;
+            } else {
+                teacherList.add(teachers.substring(start, end));
+                if (end != teachers.length() - 1) {
+                    start = end + 1;
+                    end = start;
+                } else {
+                    break;
+                }
+            }
+        }
+        return teacherList;
+    }
+
+    public List<Integer> procWeeklist() {
+        if (weeklist == null) {
+            return new ArrayList<>();
+        }
+        List<Integer> weekL = new ArrayList<>();
         int start = 0;
         int end = 1;
         for (int i = 0; i < weeklist.length(); ++i) {
             if (weeklist.charAt(i) == ',') {
-                this.weeklist.add(Integer.valueOf(weeklist.substring(start, end)));
+                weekL.add(Integer.valueOf(weeklist.substring(start, end)));
                 start = i + 1;
                 end = start + 1;
             } else {
                 if (i == weeklist.length() - 1) {
-                    this.weeklist.add(Integer.valueOf(weeklist.substring(start)));
+                    weekL.add(Integer.valueOf(weeklist.substring(start)));
                 } else {
                     end = i + 1;
                 }
             }
         }
-        int a = 0;
+        return weekL;
     }
 
     public void setRoom(List<Rooms> rooms) {
@@ -164,5 +214,9 @@ public class MyClassTable implements ScheduleEnable {
                     .append(",");
         }
         this.room = sb.toString();
+    }
+
+    public void setRoom(String room) {
+        this.room = room;
     }
 }

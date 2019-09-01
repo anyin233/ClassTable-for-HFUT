@@ -3,15 +3,13 @@ package com.zse233.classtable;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
-
 import com.zse233.classtable.database.ClassTableDao;
 import com.zse233.classtable.database.ClassTableDatabase;
 
 import java.util.List;
 
 public class ClassDatabaseRepo {
-    private LiveData<List<MyClassTable>> myClassTables;
+    private List<MyClassTable> myClassTables;
     private ClassTableDao Dao;
 
     public ClassDatabaseRepo(Context context) {
@@ -72,7 +70,7 @@ public class ClassDatabaseRepo {
         new ClearAll().execute();
     }
 
-    public LiveData<List<MyClassTable>> getAllLive() {
-        return myClassTables;
+    public List<MyClassTable> getAllLive() {
+        return Dao.getAllClassTable();
     }
 }

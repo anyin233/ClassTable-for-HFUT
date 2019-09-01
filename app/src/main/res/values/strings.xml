@@ -3,4 +3,22 @@
     <string name="Teacher">Teacher</string>
     <string name="ShowWeekView">Show week chooser</string>
     <string name="finish">Exit</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="OK">OK</string>
+    <string name="Notice" translatable="false">获取课表的时候可能会卡死，请耐心等待跳转</string>
+    <string name="Getting">Getting Coureses</string>
+    <string name="getting_done">Done</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="class1">class 1</string>
+    <string name="class2">class 2</string>
+    <string name="class3">class 3</string>
+    <string name="class4">class 4</string>
+    <string name="class5">class 5</string>
+    <string name="room1">room1</string>
+    <string name="room2">room2</string>
+    <string name="room3">room3</string>
+    <string name="room4">romm4</string>
+    <string name="room5">room5</string>
 </resources>

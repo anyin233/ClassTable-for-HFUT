@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">课程表for工大</string>
+    <string name="app_name">简易课程表 for HFUT</string>
     <string name="ShowWeekView">选择周次</string>
     <string name="Teacher">教师</string>
     <string name="finish">退出</string>
+    <string name="password">密码(信息门户密码)</string>
+    <string name="username">用户名</string>
+    <string name="OK">登录</string>
+    <string name="Getting">获取课表中</string>
+    <string name="getting_done">获取完成</string>
+    <string name="class1">第一节</string>
+    <string name="class2">第二节</string>
+    <string name="class3">第三节</string>
+    <string name="class4">第四节</string>
+    <string name="class5">第五节</string>
+    <string name="room1">教室1</string>
+    <string name="room2">教室2</string>
+    <string name="room3">教室3</string>
+    <string name="room4">教室4</string>
+    <string name="room5">教室5</string>
 </resources>

@@ -136,7 +136,61 @@ public class ClassTableRepo {
     }
 
 
-    public List<MyClassTable> prase(String testJson) {
+    public String requireStartDay(String userkey) {
+        FormBody formBody = new FormBody.Builder()
+                .add("userKey", userkey)
+                .add("projectId", "2")
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterAndWeekList.action")
+                .addHeader("Connection", "keep-alive")
+                .addHeader("Accept", "application/json, text/plain, */*")
+                .addHeader("User-Agent", "Mozilla/5.0 (Linux) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.111 Mobile Safari/537.36")
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("X-Requested-With", "edu.hfut.eams.mobile")
+                .addHeader("Accept-Encoding", "gzip, deflate")
+                .post(formBody)
+                .build();
+
+        class requestWeeklist extends AsyncTask<Request, Void, String> {
+
+            @Override
+            protected String doInBackground(Request... requests) {
+                try {
+                    OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+                    Response response = okHttpClient.newCall(requests[0]).execute();
+                    String json = response.body().string();
+                    JSONObject js = JSON.parseObject(json);
+                    JSONObject obj = js.getJSONObject("obj");
+                    JSONObject business = obj.getJSONObject("business_data");
+                    JSONArray semester = business.getJSONArray("semesters");
+                    JSONObject cur = semester.getJSONObject(0);
+                    JSONArray weeks = cur.getJSONArray("weeks");
+                    JSONObject first_week = weeks.getJSONObject(0);
+                    String first_day = first_week.getString("begin_on");
+                    return first_day;
+                } catch (IOException e) {
+                    Log.d("myTag", "登录错误");
+                }
+                return null;
+            }
+        }
+
+        requestWeeklist requestweek = new requestWeeklist();
+        try {
+            String day = requestweek.execute(request).get();
+            return day;
+        } catch (ExecutionException e) {
+            Log.d("TError", "" + e.getMessage());
+        } catch (InterruptedException e) {
+            Log.d("TError", "" + e.getMessage());
+        }
+
+        return "1970-01-01";
+    }
+
+    public List<MyClassTable> parse(String testJson) {
         if (testJson == null) {
             return new ArrayList<>();
         }
