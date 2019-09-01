@@ -14,4 +14,9 @@
     <string name="class3">第三节</string>
     <string name="class4">第四节</string>
     <string name="class5">第五节</string>
+    <string name="room1">教室1</string>
+    <string name="room2">教室2</string>
+    <string name="room3">教室3</string>
+    <string name="room4">教室4</string>
+    <string name="room5">教室5</string>
 </resources>
