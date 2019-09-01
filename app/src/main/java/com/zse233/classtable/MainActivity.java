@@ -84,8 +84,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.changeWeek: {
                 WeekView weekView;
                 weekView = findViewById(R.id.id_weekview);
-                weekView.isShow(true)
-                        .setBackgroundColor(0xFFFFFF);
+                if (weekView.isShowing()) {
+                    weekView.isShow(false)
+                            .setBackgroundColor(0);
+                } else {
+                    weekView.isShow(true)
+                            .setBackgroundColor(0xFFFFFF);
+                }
                 return true;
             }
             case R.id.login: {

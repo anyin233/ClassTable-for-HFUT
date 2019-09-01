@@ -157,6 +157,7 @@ public class HomeFragment extends Fragment {
             str += name + " @ " + bean.getWeekList().toString() + "周\n";
         }
         Snackbar.make(view, str, Snackbar.LENGTH_LONG).show();
+
     }
 
 

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/changeWeek"
-        android:title="显示周次界面"></item>
+        android:title="显示周次界面"
+        android:icon="@drawable/ic_view_array_black_24dp"
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/login"
-        android:title="登录"></item>
-    <item
-        android:id="@+id/end"
-        android:title="结束"></item>
+        android:title="登录"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        app:showAsAction="always"></item>
 </menu>
