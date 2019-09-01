@@ -7,12 +7,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.zhuangfei.timetable.TimetableView;
 import com.zhuangfei.timetable.listener.ISchedule;
 import com.zhuangfei.timetable.listener.IWeekView;
@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void initTimetableView() {
         //获取控件
         weekView = findViewById(R.id.id_weekview);
@@ -156,15 +155,15 @@ public class MainActivity extends AppCompatActivity {
                 .callback(new ISchedule.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, List<Schedule> scheduleList) {
-                        display(scheduleList, v);
+                        display(scheduleList);
                     }
                 })
                 .callback(new ISchedule.OnItemLongClickListener() {
                     @Override
                     public void onLongClick(View v, int day, int start) {
-                        Snackbar.make(v, "长按:周" + day + ",第" + start + "节", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null)
-                                .show();
+                        Toast.makeText(MainActivity.this,
+                                "长按:周" + day + ",第" + start + "节",
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .isShowNotCurWeek(false)
@@ -173,21 +172,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected void display(List<Schedule> beans, View view) {
-        String str = "该位置课程: ";
-        StringBuilder sb = new StringBuilder();
-        sb.append(str);
+    protected void display(List<Schedule> beans) {
+        String str = "该位置课程:\n";
         for (Schedule bean : beans) {
-            String name;
-            if (bean.getName().length() > 7) {
-                name = bean.getName().substring(0, 7) + "...";
-            } else {
-                name = bean.getName();
-            }
-            sb.append(name + " @" + bean.getWeekList().toString() + "\n");
+            str += bean.getName() + "\n上课周次：" + bean.getWeekList().toString() + "\n";
         }
-        Snackbar.make(view, sb.toString(), Snackbar.LENGTH_LONG)
-                .show();
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
 

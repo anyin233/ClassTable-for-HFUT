@@ -57,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent();
         intent.setClass(LoginActivity.this, MainActivity.class);
-        startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        finish();
+        startActivity(intent);
     }
-
 }

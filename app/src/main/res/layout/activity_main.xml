@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/id_weekview" />
+        app:layout_constraintTop_toTopOf="@+id/id_weekview"></com.zhuangfei.timetable.TimetableView>
 
     <com.zhuangfei.timetable.view.WeekView
         android:id="@+id/id_weekview"
