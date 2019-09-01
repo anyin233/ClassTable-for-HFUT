@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.zse233.classtable.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment" />
+    </fragment>
     <fragment
         android:id="@+id/scoreFragment"
         android:name="com.zse233.classtable.ui.ScoreFragment"
