@@ -21,5 +21,11 @@
     <string name="room3">room3</string>
     <string name="room4">romm4</string>
     <string name="room5">room5</string>
+    <string name="description">A Simple Class Table APP For HFUT</string>
+    <string name="notice">3rd Party</string>
+    <string name="icon">icon</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

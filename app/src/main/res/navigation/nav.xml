@@ -10,4 +10,9 @@
         android:name="com.zse233.classtable.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="com.zse233.classtable.ui.ScoreFragment"
+        android:label="fragment_score"
+        tools:layout="@layout/fragment_score" />
 </navigation>
