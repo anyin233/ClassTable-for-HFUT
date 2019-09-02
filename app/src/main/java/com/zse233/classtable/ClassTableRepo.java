@@ -21,7 +21,7 @@ import okhttp3.Response;
 
 
 public class ClassTableRepo {
-    String testJson = requestClassTable(requestUserKey("2018214388", "YYW20011001yyw"), 1);
+    
 
     String requestUserKey(String username, String password) {
         String json, key = "-1";
