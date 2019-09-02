@@ -56,10 +56,10 @@ public class ClassTableRepo {
                     String key = "-1";
                     json = response.body().string();
                     JSONObject jsonObject = JSON.parseObject(json);
-                    JSONObject obj = jsonObject.getJSONObject("obj");
-                    //JSONObject userkey = obj.getJSONObject("userKey");
-
-                    key = obj.getString("userKey");
+                    if (jsonObject.getString("code").equals("200")) {
+                        JSONObject obj = jsonObject.getJSONObject("obj");
+                        key = obj.getString("userKey");
+                    }
                     Log.d("TError", "" + response.code());
                     return key;
 
