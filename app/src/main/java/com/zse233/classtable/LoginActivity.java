@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,19 +38,25 @@ public class LoginActivity extends AppCompatActivity {
                 toast.show();
                 ClassTableRepo classTableRepo = new ClassTableRepo();
                 ClassDatabaseRepo classDatabaseRepo = new ClassDatabaseRepo(getApplicationContext());
-                classViewMode.clear();
                 String userKey = classTableRepo.requestUserKey(username.getText().toString(), password.getText().toString());//请求userkey
-                List<MyClassTable> classes = classTableRepo.parse(classTableRepo.requestClassTable(userKey, 0));
-                for (MyClassTable myClassTable : classes) {
-                    classDatabaseRepo.insert(myClassTable);
+                if (userKey.equals("-1")) {
+                    Snackbar.make(view, "登录失败，请检查当前网络状态或者账号密码有误", Snackbar.LENGTH_LONG).show();
+                } else {
+                    classDatabaseRepo.clear();
+                    List<MyClassTable> classes = classTableRepo.parse(classTableRepo.requestClassTable(userKey, 0));
+                    for (MyClassTable myClassTable : classes) {
+                        classDatabaseRepo.insert(myClassTable);
+                    }
+                    editor.putString("start", classTableRepo.requireStartDay(userKey));
+                    editor.apply();//将开学日期写入文件
+                    Toast toast_1 = Toast.makeText(getApplicationContext(), R.string.getting_done, Toast.LENGTH_SHORT);
+                    toast_1.show();
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
-                editor.putString("start", classTableRepo.requireStartDay(userKey));
-                editor.apply();//将开学日期写入文件
-                Toast toast_1 = Toast.makeText(getApplicationContext(), R.string.getting_done, Toast.LENGTH_SHORT);
-                toast_1.show();
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+
+
             }
         });
     }
