@@ -21,6 +21,7 @@ import okhttp3.Response;
 
 
 public class ClassTableRepo {
+
     
 
     String requestUserKey(String username, String password) {
@@ -44,32 +45,6 @@ public class ClassTableRepo {
                 .post(formBody)
                 .build();
 
-        class requestUser extends AsyncTask<Request, Void, String> {
-
-            @Override
-            protected String doInBackground(Request... requests) {
-                String json = " ";
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-                    Response response = okHttpClient.newCall(requests[0]).execute();
-
-                    String key = "-1";
-                    json = response.body().string();
-                    JSONObject jsonObject = JSON.parseObject(json);
-                    if (jsonObject.getString("code").equals("200")) {
-                        JSONObject obj = jsonObject.getJSONObject("obj");
-                        key = obj.getString("userKey");
-                    }
-                    Log.d("TError", "" + response.code());
-                    return key;
-
-                } catch (IOException e) {
-                    Log.d("TError", "登录错误" + json);
-                    Log.d("TError", " " + e.getMessage());
-                    return "-1";
-                }
-            }
-        }
 
         requestUser requestuser = new requestUser();
         try {
@@ -107,22 +82,6 @@ public class ClassTableRepo {
                 .addHeader("Accept-Encoding", "gzip, deflate")
                 .post(formBody)
                 .build();
-        class requestClass extends AsyncTask<Request, Void, String> {
-
-
-            @Override
-            protected String doInBackground(Request... requests) {
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-                    Response response = okHttpClient.newCall(requests[0]).execute();
-                    String json = response.body().string();
-                    return json;
-                } catch (IOException e) {
-                    Log.d("myTag", "登录错误");
-                }
-                return null;
-            }
-        }
 
         requestClass requestclass = new requestClass();
         try {
@@ -136,7 +95,7 @@ public class ClassTableRepo {
     }
 
 
-    public String requireStartDay(String userkey) {
+    public String requireStartDay(String userkey) {//请求开学日期
         FormBody formBody = new FormBody.Builder()
                 .add("userKey", userkey)
                 .add("projectId", "2")
@@ -152,30 +111,6 @@ public class ClassTableRepo {
                 .addHeader("Accept-Encoding", "gzip, deflate")
                 .post(formBody)
                 .build();
-
-        class requestWeeklist extends AsyncTask<Request, Void, String> {
-
-            @Override
-            protected String doInBackground(Request... requests) {
-                try {
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-                    Response response = okHttpClient.newCall(requests[0]).execute();
-                    String json = response.body().string();
-                    JSONObject js = JSON.parseObject(json);
-                    JSONObject obj = js.getJSONObject("obj");
-                    JSONObject business = obj.getJSONObject("business_data");
-                    JSONArray semester = business.getJSONArray("semesters");
-                    JSONObject cur = semester.getJSONObject(0);
-                    JSONArray weeks = cur.getJSONArray("weeks");
-                    JSONObject first_week = weeks.getJSONObject(0);
-                    String first_day = first_week.getString("begin_on");
-                    return first_day;
-                } catch (IOException e) {
-                    Log.d("myTag", "登录错误");
-                }
-                return null;
-            }
-        }
 
         requestWeeklist requestweek = new requestWeeklist();
         try {
@@ -208,5 +143,73 @@ public class ClassTableRepo {
         }
 
         return courses;
+    }
+
+    class requestClass extends AsyncTask<Request, Void, String> {
+
+
+        @Override
+        protected String doInBackground(Request... requests) {
+            try {
+                OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+                Response response = okHttpClient.newCall(requests[0]).execute();
+                String json = response.body().string();
+                return json;
+            } catch (IOException e) {
+                Log.d("myTag", "登录错误");
+            }
+            return null;
+        }
+    }
+
+    class requestWeeklist extends AsyncTask<Request, Void, String> {
+
+        @Override
+        protected String doInBackground(Request... requests) {
+            try {
+                OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+                Response response = okHttpClient.newCall(requests[0]).execute();
+                String json = response.body().string();
+                JSONObject js = JSON.parseObject(json);
+                JSONObject obj = js.getJSONObject("obj");
+                JSONObject business = obj.getJSONObject("business_data");
+                JSONArray semester = business.getJSONArray("semesters");
+                JSONObject cur = semester.getJSONObject(0);
+                JSONArray weeks = cur.getJSONArray("weeks");
+                JSONObject first_week = weeks.getJSONObject(0);
+                String first_day = first_week.getString("begin_on");
+                return first_day;
+            } catch (IOException e) {
+                Log.d("myTag", "登录错误");
+            }
+            return null;
+        }
+    }
+
+    class requestUser extends AsyncTask<Request, Void, String> {
+
+        @Override
+        protected String doInBackground(Request... requests) {
+            String json = " ";
+            try {
+                OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+                Response response = okHttpClient.newCall(requests[0]).execute();
+
+                String key = "-1";
+                json = response.body().string();
+                JSONObject jsonObject = JSON.parseObject(json);
+                if (jsonObject.getString("code").equals("200")) {
+                    JSONObject obj = jsonObject.getJSONObject("obj");
+                    key = obj.getString("userKey");
+                }
+                Log.d("TError", "" + response.code());
+                return key;
+
+            } catch (IOException e) {
+                Log.d("TError", "登录错误" + json);
+                Log.d("TError", " " + e.getMessage());
+                return "-1";
+            }
+        }
     }
 }

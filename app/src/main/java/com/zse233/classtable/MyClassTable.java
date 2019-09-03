@@ -30,8 +30,6 @@ public class MyClassTable implements ScheduleEnable {
 
     }
 
-    ;
-
     public MyClassTable(String name, List<Teachers> teachers, int start, int end, String weeklist, List<Rooms> room, int day, int colorRandom, String Id, int a_Id) {
         this.name = name;
         setTeachers(teachers);

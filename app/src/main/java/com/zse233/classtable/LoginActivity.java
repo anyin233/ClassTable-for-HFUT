@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (userKey.equals("-1")) {
                     Snackbar snackbar = Snackbar.make(view, "登录失败，请检查当前网络状态或者账号密码有误", Snackbar.LENGTH_LONG);
                     View view1 = snackbar.getView();
-                    view1.setBackground(getDrawable(R.color.colorPrimary));
+                    view1.setBackground(getDrawable(R.color.colorPrimaryDark));
                     snackbar.show();
                 } else {
                     classDatabaseRepo.clear();
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.apply();//将开学日期写入文件
                     Snackbar snackbar = Snackbar.make(view, "获取成功", Snackbar.LENGTH_LONG);
                     View view1 = snackbar.getView();
-                    view1.setBackground(getDrawable(R.color.colorPrimary));
+                    view1.setBackground(getDrawable(R.color.colorPrimaryDark));
                     snackbar.show();
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, MainActivity.class);
