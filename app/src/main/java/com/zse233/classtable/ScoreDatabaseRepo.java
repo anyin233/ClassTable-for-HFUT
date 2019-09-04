@@ -16,7 +16,7 @@ public class ScoreDatabaseRepo {
     private List<Score> scores;
     private ScoreDao dao;
 
-    ScoreDatabaseRepo(Context context){
+    public ScoreDatabaseRepo(Context context){
         ScoreDatabase database = ScoreDatabase.getScoreDatabase(context);
         dao = database.getScoreDao();
         try{
