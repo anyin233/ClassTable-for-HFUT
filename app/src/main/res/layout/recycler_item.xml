@@ -43,4 +43,4 @@
             tools:text="详细成绩" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</>
+</androidx.cardview.widget.CardView>

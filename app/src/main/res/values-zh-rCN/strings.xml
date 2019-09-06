@@ -20,7 +20,9 @@
     <string name="room4">教室四</string>
     <string name="room5">教室五</string>
     <string name="home_fragment">课程表</string>
-    <string name="hello_blank_fragment">敬请期待ヾ(≧▽≦*)o</string>
     <string name="description">为工大蛋疼的教务系统打造一款课程表</string>
     <string name="notice">可离线，随缘开发(。・∀・)ノ</string>
+    <string name="ScoreFragment_string">敬请期待ヾ(≧▽≦*)o</string>
+    <string name="score_fragment">成绩</string>
+    <string name="hello_fragment">首页</string>
 </resources>

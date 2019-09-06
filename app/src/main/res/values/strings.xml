@@ -9,8 +9,8 @@
     <string name="Notice" translatable="false">获取课表的时候可能会卡死，请耐心等待跳转</string>
     <string name="Getting">Getting Coureses</string>
     <string name="getting_done">Done</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="add_widget" translatable="false">Add widget</string>
     <string name="class1">class 1</string>
     <string name="class2">class 2</string>
     <string name="class3">class 3</string>
@@ -23,10 +23,14 @@
     <string name="room5">room5</string>
     <string name="description">A Simple Class Table APP For HFUT</string>
     <string name="notice">3rd Party</string>
-    <string name="icon">icon</string>
+    <string name="icon" translatable="false">icon</string>
 
-    <string name="hello_blank_fragment">Under Construction</string>
+    <string name="ScoreFragment_string">Under Construction</string>
     <string name="score_fragment">Score</string>
     <string name="home_fragment">Class Table</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="hello_fragment">Home</string>
 
 </resources>

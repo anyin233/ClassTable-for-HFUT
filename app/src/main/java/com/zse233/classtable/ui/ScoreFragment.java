@@ -34,10 +34,15 @@ public class ScoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_score, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         repo = new ScoreDatabaseRepo(getContext());
         recyclerView = getActivity().findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ScoreAdaptor(scoreList, getLayoutInflater(), getContext()));
-        return inflater.inflate(R.layout.fragment_score, container, false);
     }
 }

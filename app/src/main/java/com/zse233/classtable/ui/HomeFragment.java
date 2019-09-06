@@ -17,6 +17,7 @@ import com.zhuangfei.timetable.TimetableView;
 import com.zhuangfei.timetable.listener.ISchedule;
 import com.zhuangfei.timetable.listener.IWeekView;
 import com.zhuangfei.timetable.model.Schedule;
+import com.zhuangfei.timetable.model.ScheduleSupport;
 import com.zhuangfei.timetable.view.WeekView;
 import com.zse233.classtable.ClassDatabaseRepo;
 import com.zse233.classtable.MyClassTable;
@@ -106,6 +107,7 @@ public class HomeFragment extends Fragment {
         //设置周次选择属性
         weekView.setBackgroundColor(0);
         weekView.curWeek(week_now)
+                .source(classes)
                 .callback(new IWeekView.OnWeekItemClickedListener() {
                     @Override
                     public void onWeekClicked(int week) {

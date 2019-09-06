@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.bringToFront();
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.homeFragment, R.id.scoreFragment)
+                R.id.homeFragment, R.id.scoreFragment,R.id.helloFragment)
                 .setDrawerLayout(drawer)
                 .build();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -114,8 +114,10 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         NavController navController = Navigation.findNavController(this, R.id.fragment);
         if (navController.getCurrentDestination().getId() == R.id.scoreFragment) {
-            navController.navigate(R.id.homeFragment);
-        } else if (navController.getCurrentDestination().getId() == R.id.homeFragment) {
+            navController.navigate(R.id.helloFragment);
+        } else if(navController.getCurrentDestination().getId() == R.id.homeFragment){
+            navController.navigate(R.id.helloFragment);
+        } else if (navController.getCurrentDestination().getId() == R.id.helloFragment) {
             finish();
         }
     }
