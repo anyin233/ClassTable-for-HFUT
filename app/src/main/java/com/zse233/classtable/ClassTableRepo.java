@@ -8,6 +8,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zse233.classtable.classbean.Business_data;
+import com.zse233.classtable.scorebean.Exam_grades;
+import com.zse233.classtable.scorebean.Lessons;
+import com.zse233.classtable.scoredatabase.Score;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -98,7 +101,7 @@ public class ClassTableRepo {
         return "1970-01-01";
     }
 
-    String requestScore(String userKey,int semedtercode){
+    public String requestScore(String userKey,int semedtercode){
         if(userKey.equals("-1")){
             return "";
         }
@@ -118,10 +121,20 @@ public class ClassTableRepo {
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("X-Requested-With", "edu.hfut.eams.mobile")
                 .addHeader("Accept-Encoding", "gzip, deflate")
+                .get()
                 .build();
+
+        try{
+            scoreJson = new RequestScore().execute(request).get();
+        }catch(InterruptedException e){
+            Log.d("TError","@request score"+e.getMessage());
+        }catch (ExecutionException e){
+            Log.d("TError","@request score"+e.getMessage());
+        }
 
         return scoreJson;
     }
+
     public List<MyClassTable> parse(String testJson) {
         if (testJson == null) {
             return new ArrayList<>();
@@ -141,6 +154,29 @@ public class ClassTableRepo {
         return courses;
     }
 
+    public List<Score> parseScore(String Json){
+        if(Json.equals("")){
+            return new ArrayList<>();
+        }
+        List<Score> scores = new ArrayList<>();
+        JSONObject jsonObject = JSON.parseObject(Json);
+        JSONObject obj = jsonObject.getJSONObject("obj");
+        JSONObject business = obj.getJSONObject("business_data");
+        JSONArray semesterLessons = business.getJSONArray("semester_lessons");
+        JSONArray lessons = semesterLessons.getJSONArray(0);
+        List<Lessons> lessonsTemp = JSON.parseArray(lessons.toJSONString(),Lessons.class);
+
+        for(Lessons lessons1 : lessonsTemp){
+            StringBuilder sb = new StringBuilder();
+            for(Exam_grades grades : lessons1.getExam_grades()){
+                sb.append(grades.getType()).append("：").append(scores);
+            }
+            Score score = new Score(lessons1.getScore_text(),lessons1.getCourse_name(),sb.toString());
+            scores.add(score);
+        }
+        return scores;
+
+    }
     static class requestClass extends AsyncTask<Request, Void, String> {
 
 
@@ -205,6 +241,23 @@ public class ClassTableRepo {
                 Log.d("TError", "登录错误" + json);
                 Log.d("TError", " " + e.getMessage());
                 return "-1";
+            }
+        }
+    }
+
+    static class RequestScore extends AsyncTask<Request,Void,String>{
+
+        @Override
+        protected String doInBackground(Request... requests) {
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            try{
+                Response response = client.newCall(requests[0]).execute();
+                return response.body().string();
+
+            }catch(IOException e){
+                Log.d("TError","成绩获取出错");
+                Log.d("TError",""+e.getMessage());
+                return "";
             }
         }
     }

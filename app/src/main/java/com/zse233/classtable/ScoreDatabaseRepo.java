@@ -74,19 +74,19 @@ public class ScoreDatabaseRepo {
         }
     }
 
-    void insert(Score...scores){
+    public void insert(Score...scores){
         new Insert().execute(scores);
     }
 
-    void update(Score...scores){
+    public void update(Score...scores){
         new Update().execute(scores);
     }
 
-    void delete(Score...scores){
+    public void delete(Score...scores){
         new Delete().execute(scores);
     }
 
-    void clear(){
+    public void clear(){
         new Clear().execute();
     }
 

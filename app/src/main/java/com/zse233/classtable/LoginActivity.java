@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                         classDatabaseRepo.insert(myClassTable);
                     }
                     editor.putString("start", classTableRepo.requireStartDay(userKey));
+                    editor.putString("Key",userKey);
                     editor.apply();//将开学日期写入文件
                     Snackbar snackbar = Snackbar.make(view, "获取成功", Snackbar.LENGTH_LONG);
                     View view1 = snackbar.getView();

@@ -163,6 +163,7 @@ public class MyClassTable implements ScheduleEnable {
         for (Teachers teacher : teachersList) {
             sb.append(teacher.getName()).append("+");
         }
+        this.teachers = sb.toString();
     }
 
     private List<String> procTeachers() {

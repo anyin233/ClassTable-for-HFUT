@@ -81,7 +81,7 @@ public class HelloFragment extends Fragment {
         for(MyClassTable myClassTable:myClassTables){
             schedules.add(myClassTable.getSchedule());
         }
-        List<Schedule> curCourse = ScheduleSupport.getHaveSubjectsWithDay(schedules,week_now,weekDay);
+        List<Schedule> curCourse = ScheduleSupport.getHaveSubjectsWithDay(schedules,week_now,weekDay-1);
         if(curCourse == null){
             curCourse = new ArrayList<>();
         }

@@ -36,7 +36,7 @@ public class HelloAdaptor extends RecyclerView.Adapter<HelloAdaptor.HelloViewHol
         Schedule myClassTable = myClassTables.get(position);
         holder.teacher.setText(myClassTable.getTeacher());
         holder.coursePlace.setText(myClassTable.getRoom());
-        holder.courseTime.setText(myClassTable.getStart());
+        holder.courseTime.setText("第"+(myClassTable.getStart()+1)/2+"节：");
         holder.courseName.setText(myClassTable.getName());
     }
 

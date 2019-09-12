@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey;
 public class Score {
     @PrimaryKey(autoGenerate = true)
     private int Id;
-    private int score;
+    private String score;
     private String courseName;
     private String detail;
 
-    public Score(int score, String courseName, String detail) {
+    public Score(String score, String courseName, String detail) {
         this.score = score;
         this.courseName = courseName;
         this.detail = detail;
@@ -25,11 +25,11 @@ public class Score {
         Id = id;
     }
 
-    public int getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(String score) {
         this.score = score;
     }
 

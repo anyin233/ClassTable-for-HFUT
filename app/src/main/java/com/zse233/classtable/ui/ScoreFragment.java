@@ -1,6 +1,8 @@
 package com.zse233.classtable.ui;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +12,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.zse233.classtable.ClassTableRepo;
 import com.zse233.classtable.R;
 import com.zse233.classtable.ScoreAdaptor;
 import com.zse233.classtable.ScoreDatabaseRepo;
+import com.zse233.classtable.database.ClassTable;
 import com.zse233.classtable.scoredatabase.Score;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +30,11 @@ import java.util.List;
 public class ScoreFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private FloatingActionButton fab;
     private ScoreDatabaseRepo repo;
     private List<Score> scoreList;
+    private String userKey;
+    ClassTableRepo classTableRepo;
     public ScoreFragment() {
         // Required empty public constructor
     }
@@ -34,6 +44,10 @@ public class ScoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        SharedPreferences shp = getActivity().getSharedPreferences("first_day", Context.MODE_PRIVATE);
+        userKey = shp.getString("Key","-1");
+        classTableRepo = new ClassTableRepo();
+
         return inflater.inflate(R.layout.fragment_score, container, false);
     }
 
@@ -41,8 +55,29 @@ public class ScoreFragment extends Fragment {
     public void onStart() {
         super.onStart();
         repo = new ScoreDatabaseRepo(getContext());
+        scoreList = repo.getAll();
+        if(scoreList == null){
+            scoreList = new ArrayList<>();
+        }
         recyclerView = getActivity().findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new ScoreAdaptor(scoreList, getLayoutInflater(), getContext()));
+        fab = getActivity().findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view,"开始获取成绩",Snackbar.LENGTH_SHORT).show();
+                List<Score> scores = classTableRepo.parseScore(classTableRepo.requestScore(userKey,034));
+                if(scores.size() != 0){
+                    repo.clear();
+                    for(Score score:scores){
+                        repo.insert(score);
+                    }
+                    Snackbar.make(view,"获取成功",Snackbar.LENGTH_SHORT).show();
+                }else{
+                    Snackbar.make(view,"获取失败",Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
