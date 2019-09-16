@@ -25,6 +25,11 @@ public class ScoreAdaptor extends RecyclerView.Adapter<ScoreAdaptor.ScoreViewHol
         this.context = context;
     }
 
+    public void update(List<Score> scores){
+        this.scores = scores;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ScoreViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

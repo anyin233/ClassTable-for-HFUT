@@ -19,15 +19,7 @@ public class ScoreDatabaseRepo {
     public ScoreDatabaseRepo(Context context){
         ScoreDatabase database = ScoreDatabase.getScoreDatabase(context);
         dao = database.getScoreDao();
-        try{
-            scores = new GetAll().get();
-        }catch (InterruptedException e){
-            scores = new ArrayList<>();
-            Log.d("TError","@ScoreRepo" + e.getMessage());
-        }catch (ExecutionException e){
-            scores = new ArrayList<>();
-            Log.d("TError","@ScoreRepo" + e.getMessage());
-        }
+        scores = getAll();
     }
 
     class Insert extends AsyncTask<Score,Void,Void>{
@@ -91,7 +83,7 @@ public class ScoreDatabaseRepo {
     }
 
     public List<Score> getAll(){
-        return scores;
+        return dao.getAll();
     }
 
 }

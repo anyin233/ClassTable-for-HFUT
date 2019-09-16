@@ -110,7 +110,7 @@ public class ClassTableRepo {
         sb.append("http://jxglstu.hfut.edu.cn:7070/appservice/home/")
                 .append("course/getSemesterScoreList.action?projectId=2&userKey=")
                 .append(userKey)
-                .append("&identity=0&semestercode=")
+                .append("&identity=0&semestercode=0")
                 .append(semedtercode);
 
         Request request = new Request.Builder()
@@ -163,8 +163,25 @@ public class ClassTableRepo {
         JSONObject obj = jsonObject.getJSONObject("obj");
         JSONObject business = obj.getJSONObject("business_data");
         JSONArray semesterLessons = business.getJSONArray("semester_lessons");
-        JSONArray lessons = semesterLessons.getJSONArray(0);
-        List<Lessons> lessonsTemp = JSON.parseArray(lessons.toJSONString(),Lessons.class);
+        JSONObject lessons = semesterLessons.getJSONObject(0);
+        JSONArray trueLessons = lessons.getJSONArray("lessons");
+        for(int i=0;i < trueLessons.size();++i){
+            JSONObject mScore = trueLessons.getJSONObject(i);
+            String name = mScore.getString("course_name");
+            String score = mScore.getString("score_text");
+            StringBuilder sb = new StringBuilder();
+            JSONArray scoreDetail = mScore.getJSONArray("exam_grades");
+            for(int s=0;s<scoreDetail.size();++s){
+                JSONObject detail = scoreDetail.getJSONObject(s);
+                sb.append(detail.getString("type"))
+                        .append("：")
+                        .append(detail.getString("score_text"))
+                        .append(" ");
+            }
+            Score score1 = new Score(score,name,sb.toString());
+            scores.add(score1);
+        }
+        /*List<Lessons> lessonsTemp = JSON.parseArray(trueLessons.toJSONString(),Lessons.class);
 
         for(Lessons lessons1 : lessonsTemp){
             StringBuilder sb = new StringBuilder();
@@ -173,7 +190,7 @@ public class ClassTableRepo {
             }
             Score score = new Score(lessons1.getScore_text(),lessons1.getCourse_name(),sb.toString());
             scores.add(score);
-        }
+        }*/
         return scores;
 
     }

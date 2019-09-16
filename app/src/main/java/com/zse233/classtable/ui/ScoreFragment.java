@@ -54,29 +54,38 @@ public class ScoreFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        repo = new ScoreDatabaseRepo(getContext());
+        recyclerView = getActivity().findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        repo = new ScoreDatabaseRepo(getActivity().getApplicationContext());
         scoreList = repo.getAll();
         if(scoreList == null){
             scoreList = new ArrayList<>();
         }
-        recyclerView = getActivity().findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ScoreAdaptor(scoreList, getLayoutInflater(), getContext()));
+        final ScoreAdaptor mScoreAdaptor = new ScoreAdaptor(scoreList, getLayoutInflater(), getContext());
+        recyclerView.setAdapter(mScoreAdaptor);
         fab = getActivity().findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view,"开始获取成绩",Snackbar.LENGTH_SHORT).show();
-                List<Score> scores = classTableRepo.parseScore(classTableRepo.requestScore(userKey,034));
+                List<Score> scores = classTableRepo.parseScore(classTableRepo.requestScore(userKey,34));
                 if(scores.size() != 0){
                     repo.clear();
                     for(Score score:scores){
                         repo.insert(score);
                     }
+                    scoreList = scores;
                     Snackbar.make(view,"获取成功",Snackbar.LENGTH_SHORT).show();
+                    mScoreAdaptor.update(scores);
                 }else{
                     Snackbar.make(view,"获取失败",Snackbar.LENGTH_SHORT).show();
                 }
+            }
+        });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
             }
         });
     }

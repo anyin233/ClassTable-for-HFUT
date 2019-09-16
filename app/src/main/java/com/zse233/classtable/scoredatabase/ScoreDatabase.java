@@ -13,7 +13,9 @@ public abstract class ScoreDatabase extends RoomDatabase {
 
     public synchronized static ScoreDatabase getScoreDatabase(Context context){
         if(INSTANCE == null){
-            INSTANCE = Room.databaseBuilder(context,ScoreDatabase.class,"score_database").build();
+            INSTANCE = Room.databaseBuilder(context,ScoreDatabase.class,"score_database")
+                    .allowMainThreadQueries()
+                    .build();
         }
         return INSTANCE;
     }

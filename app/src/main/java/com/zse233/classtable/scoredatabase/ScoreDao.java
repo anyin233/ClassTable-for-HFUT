@@ -22,6 +22,6 @@ public interface ScoreDao {
     @Query("DELETE FROM SCORE")
     public void clear();
 
-    @Query("SELECT * FROM SCORE")
+    @Query("SELECT * FROM SCORE ORDER BY ID DESC")
     List<Score> getAll();
 }
