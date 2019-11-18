@@ -8,8 +8,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zse233.classtable.classbean.Business_data;
-import com.zse233.classtable.scorebean.Exam_grades;
-import com.zse233.classtable.scorebean.Lessons;
 import com.zse233.classtable.scoredatabase.Score;
 
 import java.io.IOException;
@@ -86,11 +84,12 @@ public class ClassTableRepo {
                 .add("projectId", "2")
                 .build();
 
-        Request request = requestBuilder(formBody,"http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterAndWeekList.action");
+        Request requestSemesterCode = requestBuilder(formBody, "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterList.action?projectId=2&userKey=xDCwRWbVynmgFwqRpxozdp1BFZrW42oImwbBVIVlsOg%3D");
+        Request requestFirstDay = requestBuilder(formBody, "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterAndWeekList.action");
 
         requestWeeklist requestweek = new requestWeeklist();
         try {
-            String day = requestweek.execute(request).get();
+            String day = requestweek.execute(requestSemesterCode, requestFirstDay).get();
             return day;
         } catch (ExecutionException e) {
             Log.d("TError", "" + e.getMessage());
@@ -217,13 +216,24 @@ public class ClassTableRepo {
         protected String doInBackground(Request... requests) {
             try {
                 OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-                Response response = okHttpClient.newCall(requests[0]).execute();
+                Response response = okHttpClient.newCall(requests[0]).execute();//请求当前学期
                 String json = response.body().string();
                 JSONObject js = JSON.parseObject(json);
                 JSONObject obj = js.getJSONObject("obj");
                 JSONObject business = obj.getJSONObject("business_data");
+                String semCode = business.getString("cur_semester_code");
+                Response response2 = okHttpClient.newCall(requests[1]).execute();//请求本学期开始日
+                json = response2.body().string();
+                js = JSON.parseObject(json);
+                obj = js.getJSONObject("obj");
+                business = obj.getJSONObject("business_data");
                 JSONArray semester = business.getJSONArray("semesters");
-                JSONObject cur = semester.getJSONObject(0);
+                int index = 0;
+                JSONObject cur = semester.getJSONObject(index);
+                while (!cur.getString("code").equals(semCode)) {
+                    ++index;
+                    cur = semester.getJSONObject(index);
+                }//使用循环确定哪个数组是对应的当前学期
                 JSONArray weeks = cur.getJSONArray("weeks");
                 JSONObject first_week = weeks.getJSONObject(0);
                 String first_day = first_week.getString("begin_on");
