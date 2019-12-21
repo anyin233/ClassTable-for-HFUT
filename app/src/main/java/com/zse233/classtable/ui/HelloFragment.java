@@ -2,24 +2,32 @@ package com.zse233.classtable.ui;
 
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.squareup.picasso.Picasso;
 import com.zhuangfei.timetable.model.Schedule;
 import com.zhuangfei.timetable.model.ScheduleSupport;
 import com.zse233.classtable.ClassDatabaseRepo;
 import com.zse233.classtable.HelloAdaptor;
 import com.zse233.classtable.MyClassTable;
 import com.zse233.classtable.R;
+import com.zse233.classtable.misc.MiscClass;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,15 +35,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HelloFragment extends Fragment {
-    RecyclerView recyclerView;
-    ClassDatabaseRepo repo;
+    private RecyclerView recyclerView;
+    private ClassDatabaseRepo repo;
+    private ImageView imageView;
     int week_now = 0;
+    private Toolbar toolbar;
 
     public HelloFragment() {
         // Required empty public constructor
@@ -46,12 +60,18 @@ public class HelloFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_hello, container, false);
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        imageView = getActivity().findViewById(R.id.homebg);
+        toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
+        MiscClass.atScheduled(false);
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -88,5 +108,42 @@ public class HelloFragment extends Fragment {
         recyclerView = getActivity().findViewById(R.id.hello_recycler);
         recyclerView.setAdapter(new HelloAdaptor(curCourse,getLayoutInflater()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        new SetHomeBg().execute();
     }
+
+    private class SetHomeBg extends AsyncTask<Void, Void, Void> {
+        private String imageurl = null;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+
+                Request request = new Request.Builder()
+                        .url("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")
+                        .build();
+                OkHttpClient client = new OkHttpClient.Builder().build();
+                Response response = client.newCall(request).execute();
+                String json = response.body().string();
+                JSONObject body = JSON.parseObject(json);
+                JSONArray images = body.getJSONArray("images");
+                JSONObject detail = images.getJSONObject(0);
+                imageurl = detail.getString("url");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (imageView != null && imageurl != null) {
+                Picasso.get()
+                        .load("https://cn.bing.com" + imageurl)
+                        .fit()
+                        .centerCrop()
+                        .into(imageView);
+            }
+        }
+    }
+
 }

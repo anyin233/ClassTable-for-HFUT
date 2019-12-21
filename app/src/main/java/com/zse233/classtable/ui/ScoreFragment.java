@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,7 @@ import com.zse233.classtable.ClassTableRepo;
 import com.zse233.classtable.R;
 import com.zse233.classtable.ScoreAdaptor;
 import com.zse233.classtable.ScoreDatabaseRepo;
-import com.zse233.classtable.database.ClassTable;
+import com.zse233.classtable.misc.MiscClass;
 import com.zse233.classtable.scoredatabase.Score;
 
 import java.util.ArrayList;
@@ -54,6 +55,9 @@ public class ScoreFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
+        MiscClass.atScheduled(false);
         recyclerView = getActivity().findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         repo = new ScoreDatabaseRepo(getActivity().getApplicationContext());

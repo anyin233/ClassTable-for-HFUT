@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -17,11 +18,11 @@ import com.zhuangfei.timetable.TimetableView;
 import com.zhuangfei.timetable.listener.ISchedule;
 import com.zhuangfei.timetable.listener.IWeekView;
 import com.zhuangfei.timetable.model.Schedule;
-import com.zhuangfei.timetable.model.ScheduleSupport;
 import com.zhuangfei.timetable.view.WeekView;
 import com.zse233.classtable.ClassDatabaseRepo;
 import com.zse233.classtable.MyClassTable;
 import com.zse233.classtable.R;
+import com.zse233.classtable.misc.MiscClass;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,6 +78,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
+        MiscClass.atScheduled(true);
         timetableView = getView().findViewById(R.id.id_timetableView);
         ClassDatabaseRepo classDatabaseRepo = new ClassDatabaseRepo(getActivity().getApplicationContext());
         classes = classDatabaseRepo.getAllLive();

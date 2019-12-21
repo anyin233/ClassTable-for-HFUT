@@ -18,6 +18,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.zhuangfei.timetable.view.WeekView;
+import com.zse233.classtable.misc.MiscClass;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
@@ -81,14 +82,17 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.changeWeek: {
-                WeekView weekView;
-                weekView = findViewById(R.id.id_weekview);
-                if (weekView.isShowing()) {
-                    weekView.isShow(false)
-                            .setBackgroundColor(0);
-                } else {
-                    weekView.isShow(true)
-                            .setBackgroundColor(0xFFFFFF);
+                if (MiscClass.isAtScheduled()) {
+                    WeekView weekView;
+                    weekView = findViewById(R.id.id_weekview);
+                    if (weekView.isShowing()) {
+                        weekView.isShow(false)
+                                .setBackgroundColor(0);
+                    } else {
+                        weekView.isShow(true)
+                                .setBackgroundColor(0xFFFFFF);
+                    }
+                    return true;
                 }
                 return true;
             }

@@ -36,6 +36,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     implementation 'com.google.android.material:material:1.0.0'
+    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.71828'
+
     def nav_version = "2.1.0-rc01"
 
     // Java
