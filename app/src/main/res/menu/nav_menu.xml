@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/todayClasses"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="今日" />
+        <item
             android:title="课表"
             android:icon="@drawable/ic_view_comfy_black_24dp"
             android:id="@+id/classTable" />

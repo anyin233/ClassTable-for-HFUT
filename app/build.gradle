@@ -7,8 +7,8 @@ android {
         applicationId "com.zse233.classtable.git"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 15
-        versionName "1.3.6-ヾ(≧▽≦*)o"
+        versionCode 16
+        versionName "1.3.7-ヾ(≧▽≦*)o"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
