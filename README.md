@@ -10,6 +10,6 @@
 [alibaba/fastjson](https://github.com/alibaba/fastjson)  
 [zfman/TimetableView](https://github.com/zfman/TimetableView)  
 [square/okhttp](https://github.com/square/okhttp)  
-[Bing每日一图](https://bing.com/)
+[Bing每日一图](https://bing.com/)  
 [Hitokoto一言](https://hitokoto.cn/)
 
