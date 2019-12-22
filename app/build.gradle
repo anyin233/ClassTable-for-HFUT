@@ -7,7 +7,7 @@ android {
         applicationId "com.zse233.classtable"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 17
+        versionCode 18
         versionName "1.4.0-A new start"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -27,4 +27,5 @@
     <string name="hello_fragment">首页</string>
     <string name="Today">今日课程</string>
     <string name="oneWordDefault">不止</string>
+    <string name="underConstrution">正在开发中.....</string>
 </resources>

@@ -51,7 +51,9 @@ public class HelloFragment extends Fragment {
     private ImageView imageView;
     int week_now = 0;
     private Toolbar toolbar;
-    private TextView one;
+    private TextView one, detail;
+    private String imageDetail = "";
+
 
     public HelloFragment() {
         // Required empty public constructor
@@ -72,6 +74,7 @@ public class HelloFragment extends Fragment {
         imageView = getActivity().findViewById(R.id.homebg);
         toolbar = getActivity().findViewById(R.id.toolbar);
         one = getActivity().findViewById(R.id.oneSentence);
+        detail = getActivity().findViewById(R.id.imageDetail);
 
         toolbar.setVisibility(View.GONE);
         MiscClass.atScheduled(false);
@@ -116,6 +119,7 @@ public class HelloFragment extends Fragment {
 
     private class SetHomeBg extends AsyncTask<Void, Void, Void> {
         private String imageurl = null;
+
         private String oneWord = null;
 
         @Override
@@ -135,7 +139,7 @@ public class HelloFragment extends Fragment {
                 JSONArray images = body.getJSONArray("images");
                 JSONObject detail = images.getJSONObject(0);
                 imageurl = detail.getString("url");//获取每日一图
-
+                imageDetail = detail.getString("copyright");//获取每日一图的信息
                 Response words = client.newCall(request1).execute();
                 oneWord = words.body().string();
             } catch (IOException e) {
@@ -146,12 +150,13 @@ public class HelloFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (imageView != null && imageurl != null) {
+            if (imageView != null && detail != null && imageurl != null) {
                 Picasso.get()
                         .load("https://cn.bing.com" + imageurl)
                         .fit()
                         .centerCrop()
                         .into(imageView);
+                detail.setText(imageDetail);
             }
             if (oneWord != null && one != null) {
                 one.setText(oneWord);

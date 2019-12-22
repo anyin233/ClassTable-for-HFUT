@@ -34,5 +34,6 @@
     <string name="hello_fragment">Home</string>
     <string name="Today">Today</string>
     <string name="oneWordDefault">Study is All</string>
+    <string name="underConstrution">Under construction....</string>
 
 </resources>

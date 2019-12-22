@@ -38,13 +38,24 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast toast = Toast.makeText(getApplicationContext(), R.string.Getting, Toast.LENGTH_SHORT);
                 toast.show();
+                try {
+                    wait(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 ClassTableRepo classTableRepo = new ClassTableRepo();
                 ClassDatabaseRepo classDatabaseRepo = new ClassDatabaseRepo(getApplicationContext());
-                String userKey = classTableRepo.requestUserKey(username.getText().toString(), password.getText().toString());//请求userkey
+
+                String userKey = classTableRepo.requestUserKey(
+                        username.getText().toString(),
+                        password.getText().toString());//请求userkey
                 if (userKey.equals("-1")) {
-                    Snackbar snackbar = Snackbar.make(view, "登录失败，请检查当前网络状态或者账号密码有误", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(
+                            view,
+                            "登录失败，请检查当前网络状态或者账号密码有误",
+                            Snackbar.LENGTH_LONG);
                     View view1 = snackbar.getView();
                     view1.setBackground(getDrawable(R.color.colorPrimaryDark));
                     snackbar.show();
