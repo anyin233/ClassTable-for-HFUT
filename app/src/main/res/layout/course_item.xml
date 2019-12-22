@@ -2,14 +2,17 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/app_pink"
     app:cardCornerRadius="5dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF">
 
         <TextView
             android:id="@+id/hello_course_name"
@@ -24,29 +27,6 @@
             tools:text="什么什么课" />
 
         <TextView
-            android:id="@+id/hello_course_place"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toStartOf="@+id/hello_teacher"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hello_class_num"
-            tools:text="翠一教111" />
-
-        <TextView
-            android:id="@+id/hello_teacher"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/hello_course_place"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/hello_course_place"
-            app:layout_constraintTop_toTopOf="@+id/hello_course_place"
-            tools:text="老师A" />
-
-        <TextView
             android:id="@+id/hello_class_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,5 +36,51 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="第1节：" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="27dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/hello_course_place"
+            app:layout_constraintEnd_toStartOf="@+id/hello_course_place"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/hello_course_place"
+            app:srcCompat="@drawable/ic_room_black_24dp" />
+
+        <TextView
+            android:id="@+id/hello_course_place"
+            android:layout_width="171dp"
+            android:layout_height="0dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="@+id/imageView5"
+            tools:text="翠一教111" />
+
+        <TextView
+            android:id="@+id/hello_teacher"
+            android:layout_width="156dp"
+            android:layout_height="0dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/hello_course_name"
+            tools:text="老师A" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="35dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/hello_teacher"
+            app:layout_constraintEnd_toStartOf="@+id/hello_teacher"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/hello_course_place"
+            app:layout_constraintTop_toTopOf="@+id/hello_teacher"
+            app:srcCompat="@drawable/ic_contacts_black_24dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

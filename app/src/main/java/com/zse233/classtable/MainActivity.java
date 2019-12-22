@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +21,15 @@ import com.zse233.classtable.misc.MiscClass;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);//加载toolbar
+
         final DrawerLayout drawer = findViewById(R.id.drawer);
 
         appBarConfiguration = new AppBarConfiguration.Builder(
@@ -119,4 +122,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
+
+
 }
+

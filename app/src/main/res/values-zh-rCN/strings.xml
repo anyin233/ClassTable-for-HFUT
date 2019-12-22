@@ -26,4 +26,5 @@
     <string name="score_fragment">成绩</string>
     <string name="hello_fragment">首页</string>
     <string name="Today">今日课程</string>
+    <string name="oneWordDefault">不止</string>
 </resources>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -50,6 +51,7 @@ public class HelloFragment extends Fragment {
     private ImageView imageView;
     int week_now = 0;
     private Toolbar toolbar;
+    private TextView one;
 
     public HelloFragment() {
         // Required empty public constructor
@@ -60,7 +62,6 @@ public class HelloFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_hello, container, false);
 
     }
@@ -70,6 +71,8 @@ public class HelloFragment extends Fragment {
         super.onStart();
         imageView = getActivity().findViewById(R.id.homebg);
         toolbar = getActivity().findViewById(R.id.toolbar);
+        one = getActivity().findViewById(R.id.oneSentence);
+
         toolbar.setVisibility(View.GONE);
         MiscClass.atScheduled(false);
         Date date = new Date();
@@ -113,6 +116,7 @@ public class HelloFragment extends Fragment {
 
     private class SetHomeBg extends AsyncTask<Void, Void, Void> {
         private String imageurl = null;
+        private String oneWord = null;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -121,13 +125,19 @@ public class HelloFragment extends Fragment {
                 Request request = new Request.Builder()
                         .url("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")
                         .build();
+                Request request1 = new Request.Builder()
+                        .url("https://v1.hitokoto.cn/?c=b&encode=text")
+                        .build();
                 OkHttpClient client = new OkHttpClient.Builder().build();
                 Response response = client.newCall(request).execute();
                 String json = response.body().string();
                 JSONObject body = JSON.parseObject(json);
                 JSONArray images = body.getJSONArray("images");
                 JSONObject detail = images.getJSONObject(0);
-                imageurl = detail.getString("url");
+                imageurl = detail.getString("url");//获取每日一图
+
+                Response words = client.newCall(request1).execute();
+                oneWord = words.body().string();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -142,6 +152,11 @@ public class HelloFragment extends Fragment {
                         .fit()
                         .centerCrop()
                         .into(imageView);
+            }
+            if (oneWord != null && one != null) {
+                one.setText(oneWord);
+            } else if (one != null) {
+                one.setText(R.string.oneWordDefault);
             }
         }
     }
