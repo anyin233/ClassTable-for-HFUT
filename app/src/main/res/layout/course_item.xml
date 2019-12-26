@@ -14,35 +14,6 @@
         android:layout_height="wrap_content"
         android:background="#00FFFFFF">
 
-        <TextView
-            android:id="@+id/hello_course_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/app_black"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="@+id/hello_class_num"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/hello_class_num"
-            app:layout_constraintTop_toTopOf="@+id/hello_class_num"
-            tools:text="什么什么课" />
-
-        <TextView
-            android:id="@+id/hello_class_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="2dp"
-            android:textColor="@color/app_black"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageView3"
-            app:layout_constraintEnd_toStartOf="@+id/hello_course_name"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="第1节：" />
-
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
@@ -53,6 +24,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/hello_course_place"
             app:srcCompat="@drawable/ic_room_black_24dp" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/hello_teacher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/hello_teacher"
+            app:srcCompat="@drawable/ic_contacts_black_24dp" />
+
+        <TextView
+            android:id="@+id/hello_course_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/app_black"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/hello_class_num"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="什么什么课" />
 
         <TextView
             android:id="@+id/hello_course_place"
@@ -81,15 +76,18 @@
             app:layout_constraintTop_toBottomOf="@+id/hello_course_place"
             tools:text="老师A" />
 
-        <ImageView
-            android:id="@+id/imageView5"
+        <TextView
+            android:id="@+id/hello_class_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/hello_teacher"
+            android:textColor="@color/app_black"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@+id/hello_course_name"
+            app:layout_constraintEnd_toStartOf="@+id/hello_course_name"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/hello_teacher"
-            app:srcCompat="@drawable/ic_contacts_black_24dp" />
+            app:layout_constraintTop_toTopOf="@+id/hello_course_name"
+            tools:text="第1节：" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

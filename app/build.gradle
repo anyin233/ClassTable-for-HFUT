@@ -7,8 +7,8 @@ android {
         applicationId "com.zse233.classtable"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 18
-        versionName "1.4.0-A new start"
+        versionCode 19
+        versionName "1.4.1-A new start"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,6 +37,8 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     implementation 'com.google.android.material:material:1.0.0'
     compile group: 'com.squareup.picasso', name: 'picasso', version: '2.71828'
+    compile 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     def nav_version = "2.1.0-rc01"
 
