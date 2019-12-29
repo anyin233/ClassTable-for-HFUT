@@ -22,16 +22,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".TableWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.zse233.classtable.widget.UPDATE" />
-            </intent-filter>
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/table_widget_info" />
-        </receiver>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
