@@ -5,6 +5,7 @@ public class MiscClass {
     private static String oneWord = "";
     private static String bingPic = "";
 
+
     public static String getBingPic() {
         return bingPic;
     }
@@ -28,4 +29,5 @@ public class MiscClass {
     public static void atScheduled(boolean isScheduled) {
         MiscClass.isScheduled = isScheduled;
     }
+
 }

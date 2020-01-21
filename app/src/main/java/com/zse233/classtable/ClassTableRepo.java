@@ -84,7 +84,9 @@ public class ClassTableRepo {
                 .add("projectId", "2")
                 .build();
 
-        Request requestSemesterCode = requestBuilder(formBody, "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterList.action?projectId=2&userKey=xDCwRWbVynmgFwqRpxozdp1BFZrW42oImwbBVIVlsOg%3D");
+        Request requestSemesterCode = requestBuilder(formBody,
+                "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterList.action?projectId=2&userKey=" + userkey);
+
         Request requestFirstDay = requestBuilder(formBody, "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterAndWeekList.action");
 
         requestWeeklist requestweek = new requestWeeklist();
@@ -222,6 +224,7 @@ public class ClassTableRepo {
                 JSONObject obj = js.getJSONObject("obj");
                 JSONObject business = obj.getJSONObject("business_data");
                 String semCode = business.getString("cur_semester_code");
+
                 Response response2 = okHttpClient.newCall(requests[1]).execute();//请求本学期开始日
                 json = response2.body().string();
                 js = JSON.parseObject(json);
@@ -243,6 +246,7 @@ public class ClassTableRepo {
             }
             return null;
         }
+
     }
 
     static class requestUser extends AsyncTask<Request, Void, String> {
@@ -270,6 +274,7 @@ public class ClassTableRepo {
                 return "-1";
             }
         }
+
     }
 
     static class RequestScore extends AsyncTask<Request,Void,String>{
