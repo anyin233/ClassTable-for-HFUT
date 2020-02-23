@@ -7,8 +7,8 @@ android {
         applicationId "com.zse233.classtable"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 19
-        versionName "1.4.1-A new start"
+        versionCode 20
+        versionName "1.4.2-A new start"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,8 +29,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.github.zfman:TimetableView:v2.0.7'
     implementation group: 'com.alibaba', name: 'fastjson', version: '1.1.71.android'
-    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.1.0'
-    implementation group: 'com.squareup.okio', name: 'okio', version: '2.3.0'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.3.1'
+    implementation group: 'com.squareup.okio', name: 'okio', version: '2.4.1'
     implementation 'androidx.room:room-runtime:2.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
