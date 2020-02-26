@@ -4,7 +4,24 @@ public class MiscClass {
     private static boolean isScheduled = true;
     private static String oneWord = "";
     private static String bingPic = "";
+    private static String userKey = "";
+    private static int termCode = 34;
 
+    public static int getTermCode() {
+        return termCode;
+    }
+
+    public static void setTermCode(int termCode) {
+        MiscClass.termCode = termCode;
+    }
+
+    public static String getUserKey() {
+        return userKey;
+    }
+
+    public static void setUserKey(String userKey) {
+        MiscClass.userKey = userKey;
+    }
 
     public static String getBingPic() {
         return bingPic;

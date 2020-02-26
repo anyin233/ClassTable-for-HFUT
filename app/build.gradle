@@ -2,20 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "30.0.0-rc1"
     defaultConfig {
         applicationId "com.zse233.classtable"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 20
-        versionName "1.4.2-A new start"
+        versionCode 21
+        versionName "1.4.3-出成绩啦"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 }
 

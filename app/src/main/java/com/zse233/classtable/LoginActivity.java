@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.ArraySet;
+import android.util.Pair;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -13,10 +15,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.snackbar.Snackbar;
 import com.zse233.classtable.misc.LoginErrorThrowable;
+import com.zse233.classtable.misc.MiscClass;
+import com.zse233.classtable.term.TermInfo;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -32,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     ClassViewMode classViewMode;
     SharedPreferences shp;
     SharedPreferences.Editor editor;
+    Set<String> termName = new ArraySet<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +58,14 @@ public class LoginActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), R.string.Getting, Toast.LENGTH_SHORT);
                 toast.show();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
-                Observable.create(new ObservableOnSubscribe<Boolean>() {
+                Observable.create(new ObservableOnSubscribe<TermInfo>() {
                     private Throwable error = new LoginErrorThrowable();
 
                     @Override
-                    public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                    public void subscribe(ObservableEmitter<TermInfo> emitter) throws IOException {
                         ClassTableRepo classTableRepo = new ClassTableRepo();
                         ClassDatabaseRepo classDatabaseRepo = new ClassDatabaseRepo(getApplicationContext());
 
@@ -65,21 +76,32 @@ public class LoginActivity extends AppCompatActivity {
                         if (userKey.equals("-1")) {
                             emitter.onError(error);
                         } else {
+                            Pair<Integer, String> startDayPair = classTableRepo.requireStartDay(userKey);
                             classDatabaseRepo.clear();
-                            List<MyClassTable> classes = classTableRepo.parse(classTableRepo.requestClassTable(userKey, 0));
+                            List<MyClassTable> classes = classTableRepo.parse(classTableRepo.requestClassTable(userKey, startDayPair.first));
+                            MiscClass.setTermCode(startDayPair.first);
                             for (MyClassTable myClassTable : classes) {
                                 classDatabaseRepo.insert(myClassTable);
                             }
-                            editor.putString("start", classTableRepo.requireStartDay(userKey));
+                            editor.putString("start", startDayPair.second);
                             editor.putString("Key", userKey);
-                            editor.apply();//将开学日期写入文件
+                            String json = classTableRepo.requestSemesterList(userKey);
+                            JSONObject semesterList = JSON.parseObject(json);
+                            JSONArray list = semesterList.getJSONObject("obj")
+                                    .getJSONObject("business_data")
+                                    .getJSONArray("semesters");
+                            for (int i = 0; i < list.size(); ++i) {
+                                JSONObject semester = list.getJSONObject(i);
+                                TermInfo termInfo = new TermInfo(semester.getInteger("code"), semester.getString("name"));
+                                emitter.onNext(termInfo);
+                            }
                             emitter.onComplete();
 
                         }
                     }
                 }).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Boolean>() {
+                        .subscribe(new Observer<TermInfo>() {
 
                             @Override
                             public void onSubscribe(Disposable d) {
@@ -87,9 +109,11 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onNext(Boolean aBoolean) {
-
+                            public void onNext(TermInfo termInfo) {
+                                editor.putInt(termInfo.getName(), termInfo.getCode());
+                                termName.add(termInfo.getName());
                             }
+
 
                             @Override
                             public void onError(Throwable e) {
@@ -104,6 +128,9 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onComplete() {
+
+                                editor.putStringSet("terms", termName);
+                                editor.apply();
                                 Toast.makeText(getApplicationContext(), "获取成功", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent();
                                 intent.setClass(LoginActivity.this, MainActivity.class);

@@ -1,6 +1,7 @@
 package com.zse233.classtable;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.zse233.classtable.misc.MiscClass;
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ImageView imageView;
+    private SharedPreferences shp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);//加载toolbar
 
+        shp = getSharedPreferences("first_day", MODE_PRIVATE);
+        if (shp.contains("key")) {
+            MiscClass.setUserKey(shp.getString("key", ""));
+        }
         final DrawerLayout drawer = findViewById(R.id.drawer);
 
         appBarConfiguration = new AppBarConfiguration.Builder(

@@ -28,4 +28,6 @@
     <string name="Today">今日课程</string>
     <string name="oneWordDefault">不止</string>
     <string name="underConstrution">正在开发中.....</string>
+    <string name="request_score">确认</string>
+    <string name="term_chooser_title">请选择查询学期</string>
 </resources>

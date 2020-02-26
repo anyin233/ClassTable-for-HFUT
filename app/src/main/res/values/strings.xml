@@ -35,5 +35,7 @@
     <string name="Today">Today</string>
     <string name="oneWordDefault">Study is All</string>
     <string name="underConstrution">Under construction....</string>
+    <string name="request_score">OK</string>
+    <string name="term_chooser_title">Please choose a term</string>
 
 </resources>

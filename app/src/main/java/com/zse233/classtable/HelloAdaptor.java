@@ -1,6 +1,5 @@
 package com.zse233.classtable;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zhuangfei.timetable.model.Schedule;
 
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
 
 
 public class HelloAdaptor extends RecyclerView.Adapter<HelloAdaptor.HelloViewHolder> {
