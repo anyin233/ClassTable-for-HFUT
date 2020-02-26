@@ -85,7 +85,7 @@ public class ScoreFragment extends Fragment {
                 Observable<List<Score>> observable = Observable.create(new ObservableOnSubscribe<List<Score>>() {
                     @Override
                     public void subscribe(ObservableEmitter<List<Score>> emitter) {
-                        SharedPreferences shp = getActivity().getSharedPreferences("first_day", Context.MODE_PRIVATE);
+                        SharedPreferences shp = Objects.requireNonNull(getActivity()).getSharedPreferences("first_day", Context.MODE_PRIVATE);
                         int termCode = shp.getInt("curr_term", MiscClass.getTermCode());
                         List<Score> scores = classTableRepo.parseScore(classTableRepo.requestScore(userKey, termCode));
                         emitter.onNext(scores);
