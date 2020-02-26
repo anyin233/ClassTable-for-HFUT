@@ -108,36 +108,60 @@ public class HelloFragment extends Fragment {
         if(curCourse == null){
             curCourse = new ArrayList<>();
         }
+
         recyclerView = getActivity().findViewById(R.id.hello_recycler);
         recyclerView.setAdapter(new HelloAdaptor(curCourse,getLayoutInflater()));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        linearLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
         new SetHomeBg().execute();
     }
 
     private class SetHomeBg extends AsyncTask<Void, Void, Void> {
         private String imageurl = null;
+
         private String oneWord = null;
 
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-
-                Request request = new Request.Builder()
-                        .url("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")
-                        .build();
-                Request request1 = new Request.Builder()
-                        .url("https://v1.hitokoto.cn/?c=b&encode=text")
-                        .build();
                 OkHttpClient client = new OkHttpClient.Builder().build();
-                Response response = client.newCall(request).execute();
-                String json = response.body().string();
-                JSONObject body = JSON.parseObject(json);
-                JSONArray images = body.getJSONArray("images");
-                JSONObject detail = images.getJSONObject(0);
-                imageurl = detail.getString("url");//获取每日一图
 
-                Response words = client.newCall(request1).execute();
-                oneWord = words.body().string();
+                if (MiscClass.getBingPic().equals("")) {
+                    Request request = new Request.Builder()
+                            .url("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")
+                            .build();
+
+
+                    Response response = client.newCall(request).execute();
+                    String json = response.body().string();
+                    JSONObject body = JSON.parseObject(json);
+                    JSONArray images = body.getJSONArray("images");
+                    JSONObject detail = images.getJSONObject(0);
+                    imageurl = detail.getString("url");//获取每日一图
+                    MiscClass.setBingPic(imageurl);
+                }
+
+                if (MiscClass.getOneWord().equals("")) {
+
+                    Request request1 = new Request.Builder()
+                            .url("https://v1.hitokoto.cn/?c=b&encode=text")
+                            .build();
+                    Response words = client.newCall(request1).execute();
+                    oneWord = words.body().string();
+                    MiscClass.setOneWord(oneWord);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -146,15 +170,20 @@ public class HelloFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (imageView != null && imageurl != null) {
+            if (imageView != null && MiscClass.getBingPic() != null) {
                 Picasso.get()
-                        .load("https://cn.bing.com" + imageurl)
+                        .load("https://cn.bing.com" + MiscClass.getBingPic())
                         .fit()
                         .centerCrop()
                         .into(imageView);
+                /*Glide.with(getContext())
+                        .load("https://cn.bing.com" + MiscClass.getBingPic())
+                        .centerCrop()
+                        .into(imageView);*/
+
             }
-            if (oneWord != null && one != null) {
-                one.setText(oneWord);
+            if (!MiscClass.getOneWord().equals("") && one != null) {
+                one.setText(MiscClass.getOneWord());
             } else if (one != null) {
                 one.setText(R.string.oneWordDefault);
             }

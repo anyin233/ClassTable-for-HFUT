@@ -16,6 +16,8 @@
             android:id="@+id/subject"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/score_all"
             app:layout_constraintHorizontal_bias="0.5"
@@ -27,6 +29,7 @@
             android:id="@+id/score_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:textAlignment="center"
             android:textColor="@color/app_red"
             android:textSize="25sp"
@@ -41,8 +44,13 @@
             android:id="@+id/score_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subject"
-            tools:layout_editor_absoluteX="16dp"
             tools:text="详细成绩" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

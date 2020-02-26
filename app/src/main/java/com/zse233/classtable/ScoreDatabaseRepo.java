@@ -2,15 +2,12 @@ package com.zse233.classtable;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.zse233.classtable.scoredatabase.Score;
 import com.zse233.classtable.scoredatabase.ScoreDao;
 import com.zse233.classtable.scoredatabase.ScoreDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class ScoreDatabaseRepo {
     private List<Score> scores;

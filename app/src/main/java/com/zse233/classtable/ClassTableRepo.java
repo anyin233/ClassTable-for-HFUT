@@ -3,6 +3,7 @@ package com.zse233.classtable;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Pair;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -13,6 +14,7 @@ import com.zse233.classtable.scoredatabase.Score;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.FormBody;
@@ -22,11 +24,12 @@ import okhttp3.Response;
 
 
 public class ClassTableRepo {
+    private String baseUrl = "http://jxglstu.hfut.edu.cn:7070/appservice/home";
 
     
 
     String requestUserKey(String username, String password) {
-        String json, key = "-1";
+        String key = "-1";
 
 
         FormBody formBody = new FormBody.Builder()
@@ -41,16 +44,14 @@ public class ClassTableRepo {
         requestUser requestuser = new requestUser();
         try {
             key = requestuser.execute(request).get();
-        } catch (InterruptedException e) {
-            Log.d("TError", "On Login " + e.getMessage());
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             Log.d("TError", "On Login " + e.getMessage());
         }
 
         return key;
     }
 
-    String requestClassTable(String userkey, int curweek) {
+    String requestClassTable(String userkey, int semesterCode) {
         if (userkey.equals("-1")) {
             return null;
         }
@@ -60,8 +61,8 @@ public class ClassTableRepo {
                 .add("userKey", userkey)
                 .add("projectId", "2")
                 .add("identity", "0")
-                .add("weekIndex", String.valueOf(curweek))
-                .add("semestercode", "035")
+                .add("weekIndex", String.valueOf(0))
+                .add("semestercode", "0" + semesterCode)
                 .build();
 
         Request request = requestBuilder(formBody,"http://jxglstu.hfut.edu.cn:7070/appservice/home/schedule/getWeekSchedule.action");
@@ -69,35 +70,42 @@ public class ClassTableRepo {
         requestClass requestclass = new requestClass();
         try {
             return requestclass.execute(request).get();
-        } catch (InterruptedException e) {
-            Log.d("TError", "On Get ClassTable" + e.getMessage());
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             Log.d("TError", "On Get ClassTable" + e.getMessage());
         }
         return null;
     }
 
+    public String requestSemesterList(String userKey) throws IOException {
+        Request request = getBuilder("/publicdata/getSemesterList.action?projectId=2&userKey=" + userKey);
 
-    public String requireStartDay(String userkey) {//请求开学日期
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        Response response = client.newCall(request).execute();
+        if (response.isSuccessful()) {
+            return Objects.requireNonNull(response.body()).string();
+        }
+        return "-1";
+    }
+
+    Pair<Integer, String> requireStartDay(String userkey) {//请求开学日期
         FormBody formBody = new FormBody.Builder()
                 .add("userKey", userkey)
                 .add("projectId", "2")
                 .build();
 
-        Request requestSemesterCode = requestBuilder(formBody, "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterList.action?projectId=2&userKey=xDCwRWbVynmgFwqRpxozdp1BFZrW42oImwbBVIVlsOg%3D");
+        Request requestSemesterCode = requestBuilder(formBody,
+                "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterList.action?projectId=2&userKey=" + userkey);
+
         Request requestFirstDay = requestBuilder(formBody, "http://jxglstu.hfut.edu.cn:7070/appservice/home/publicdata/getSemesterAndWeekList.action");
 
         requestWeeklist requestweek = new requestWeeklist();
         try {
-            String day = requestweek.execute(requestSemesterCode, requestFirstDay).get();
-            return day;
-        } catch (ExecutionException e) {
-            Log.d("TError", "" + e.getMessage());
-        } catch (InterruptedException e) {
+            return requestweek.execute(requestSemesterCode, requestFirstDay).get();
+        } catch (ExecutionException | InterruptedException e) {
             Log.d("TError", "" + e.getMessage());
         }
 
-        return "1970-01-01";
+        return Pair.create(0, "1970-01-01");
     }
 
     public String requestScore(String userKey,int semedtercode){
@@ -105,15 +113,14 @@ public class ClassTableRepo {
             return "";
         }
         String scoreJson = "";
-        StringBuilder sb = new StringBuilder();
-        sb.append("http://jxglstu.hfut.edu.cn:7070/appservice/home/")
-                .append("course/getSemesterScoreList.action?projectId=2&userKey=")
-                .append(userKey)
-                .append("&identity=0&semestercode=0")
-                .append(semedtercode);
 
+        String sb = "http://jxglstu.hfut.edu.cn:7070/appservice/home/" +
+                "course/getSemesterScoreList.action?projectId=2&userKey=" +
+                userKey +
+                "&identity=0&semestercode=0" +
+                semedtercode;
         Request request = new Request.Builder()
-                .url(sb.toString())
+                .url(sb)
                 .addHeader("Connection", "keep-alive")
                 .addHeader("Accept", "application/json, text/plain, */*")
                 .addHeader("User-Agent", "Mozilla/5.0 (Linux) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.111 Mobile Safari/537.36")
@@ -125,16 +132,14 @@ public class ClassTableRepo {
 
         try{
             scoreJson = new RequestScore().execute(request).get();
-        }catch(InterruptedException e){
-            Log.d("TError","@request score"+e.getMessage());
-        }catch (ExecutionException e){
+        } catch (InterruptedException | ExecutionException e) {
             Log.d("TError","@request score"+e.getMessage());
         }
 
         return scoreJson;
     }
 
-    public List<MyClassTable> parse(String testJson) {
+    List<MyClassTable> parse(String testJson) {
         if (testJson == null) {
             return new ArrayList<>();
         }
@@ -145,8 +150,8 @@ public class ClassTableRepo {
         List<Business_data> classes = JSON.parseArray(business.toJSONString(), Business_data.class);
 
         for (Business_data aClass : classes) {
-            int colorCode = Integer.valueOf(aClass.getActivity_id()) / 10000;
-            MyClassTable course = new MyClassTable(aClass.getCourse_name(), aClass.getTeachers(), aClass.getStart_unit(), aClass.getEnd_unit(), aClass.getActivity_week(), aClass.getRooms(), aClass.getWeekday(), colorCode, aClass.getLesson_code(), Integer.valueOf(aClass.getActivity_id()));
+            int colorCode = Integer.parseInt(aClass.getActivity_id()) / 10000;
+            MyClassTable course = new MyClassTable(aClass.getCourse_name(), aClass.getTeachers(), aClass.getStart_unit(), aClass.getEnd_unit(), aClass.getActivity_week(), aClass.getRooms(), aClass.getWeekday(), colorCode, aClass.getLesson_code(), Integer.parseInt(aClass.getActivity_id()));
             courses.add(course);
         }
 
@@ -154,14 +159,14 @@ public class ClassTableRepo {
     }
 
     public List<Score> parseScore(String Json){
-        if(Json.equals("")){
-            return new ArrayList<>();
-        }
         List<Score> scores = new ArrayList<>();
         JSONObject jsonObject = JSON.parseObject(Json);
         JSONObject obj = jsonObject.getJSONObject("obj");
         JSONObject business = obj.getJSONObject("business_data");
         JSONArray semesterLessons = business.getJSONArray("semester_lessons");
+        if (semesterLessons.size() == 0) {
+            return new ArrayList<>();
+        }
         JSONObject lessons = semesterLessons.getJSONObject(0);
         JSONArray trueLessons = lessons.getJSONArray("lessons");
         for(int i=0;i < trueLessons.size();++i){
@@ -193,6 +198,20 @@ public class ClassTableRepo {
         return scores;
 
     }
+
+    private Request getBuilder(String url) {
+        return new Request.Builder()
+                .url(baseUrl + url)
+                .addHeader("Connection", "keep-alive")
+                .addHeader("Accept", "application/json, text/plain, */*")
+                .addHeader("User-Agent", "Mozilla/5.0 (Linux) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/76.0.3809.111 Mobile Safari/537.36")
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("X-Requested-With", "edu.hfut.eams.mobile")
+                .addHeader("Accept-Encoding", "gzip, deflate")
+                .get()
+                .build();
+    }
+
     static class requestClass extends AsyncTask<Request, Void, String> {
 
 
@@ -201,8 +220,7 @@ public class ClassTableRepo {
             try {
                 OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
                 Response response = okHttpClient.newCall(requests[0]).execute();
-                String json = response.body().string();
-                return json;
+                return Objects.requireNonNull(response.body()).string();
             } catch (IOException e) {
                 Log.d("myTag", "登录错误");
             }
@@ -210,20 +228,21 @@ public class ClassTableRepo {
         }
     }
 
-    static class requestWeeklist extends AsyncTask<Request, Void, String> {
+    static class requestWeeklist extends AsyncTask<Request, Void, Pair<Integer, String>> {
 
         @Override
-        protected String doInBackground(Request... requests) {
+        protected Pair<Integer, String> doInBackground(Request... requests) {
             try {
                 OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
                 Response response = okHttpClient.newCall(requests[0]).execute();//请求当前学期
-                String json = response.body().string();
+                String json = Objects.requireNonNull(response.body()).string();
                 JSONObject js = JSON.parseObject(json);
                 JSONObject obj = js.getJSONObject("obj");
                 JSONObject business = obj.getJSONObject("business_data");
                 String semCode = business.getString("cur_semester_code");
+
                 Response response2 = okHttpClient.newCall(requests[1]).execute();//请求本学期开始日
-                json = response2.body().string();
+                json = Objects.requireNonNull(response2.body()).string();
                 js = JSON.parseObject(json);
                 obj = js.getJSONObject("obj");
                 business = obj.getJSONObject("business_data");
@@ -237,12 +256,13 @@ public class ClassTableRepo {
                 JSONArray weeks = cur.getJSONArray("weeks");
                 JSONObject first_week = weeks.getJSONObject(0);
                 String first_day = first_week.getString("begin_on");
-                return first_day;
+                return Pair.create(Integer.parseInt(semCode), first_day);
             } catch (IOException e) {
                 Log.d("myTag", "登录错误");
             }
             return null;
         }
+
     }
 
     static class requestUser extends AsyncTask<Request, Void, String> {
@@ -255,7 +275,7 @@ public class ClassTableRepo {
                 Response response = okHttpClient.newCall(requests[0]).execute();
 
                 String key = "-1";
-                json = response.body().string();
+                json = Objects.requireNonNull(response.body()).string();
                 JSONObject jsonObject = JSON.parseObject(json);
                 if (jsonObject.getString("code").equals("200")) {
                     JSONObject obj = jsonObject.getJSONObject("obj");
@@ -270,23 +290,7 @@ public class ClassTableRepo {
                 return "-1";
             }
         }
-    }
 
-    static class RequestScore extends AsyncTask<Request,Void,String>{
-
-        @Override
-        protected String doInBackground(Request... requests) {
-            OkHttpClient client = new OkHttpClient.Builder().build();
-            try{
-                Response response = client.newCall(requests[0]).execute();
-                return response.body().string();
-
-            }catch(IOException e){
-                Log.d("TError","成绩获取出错");
-                Log.d("TError",""+e.getMessage());
-                return "";
-            }
-        }
     }
 
     private Request requestBuilder(FormBody formBody,String url){
@@ -300,5 +304,22 @@ public class ClassTableRepo {
                 .addHeader("Accept-Encoding", "gzip, deflate")
                 .post(formBody)
                 .build();
+    }
+
+    static class RequestScore extends AsyncTask<Request, Void, String> {
+
+        @Override
+        protected String doInBackground(Request... requests) {
+            OkHttpClient client = new OkHttpClient.Builder().build();
+            try {
+                Response response = client.newCall(requests[0]).execute();
+                return Objects.requireNonNull(response.body()).string();
+
+            } catch (IOException e) {
+                Log.d("TError", "成绩获取出错");
+                Log.d("TError", "" + e.getMessage());
+                return "";
+            }
+        }
     }
 }
