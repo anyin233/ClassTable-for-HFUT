@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.zse233.classtable.ClassDatabaseRepo;
 import com.zse233.classtable.HelloAdaptor;
 import com.zse233.classtable.MyClassTable;
 import com.zse233.classtable.R;
+import com.zse233.classtable.dialog.FirstDayChooseDialog;
 import com.zse233.classtable.misc.MiscClass;
 
 import java.io.IOException;
@@ -52,6 +54,7 @@ public class HelloFragment extends Fragment {
     int week_now = 0;
     private Toolbar toolbar;
     private TextView one;
+    private CardView title;
 
     public HelloFragment() {
         // Required empty public constructor
@@ -72,6 +75,7 @@ public class HelloFragment extends Fragment {
         imageView = getActivity().findViewById(R.id.homebg);
         toolbar = getActivity().findViewById(R.id.toolbar);
         one = getActivity().findViewById(R.id.oneSentence);
+        title = getActivity().findViewById(R.id.cardView);
 
         toolbar.setVisibility(View.GONE);
         MiscClass.atScheduled(false);
@@ -126,6 +130,15 @@ public class HelloFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         new SetHomeBg().execute();
+
+        title.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                FirstDayChooseDialog dialog = new FirstDayChooseDialog();
+                dialog.show(getFragmentManager(), "ChooseFirstDay");
+                return true;
+            }
+        });
     }
 
     private class SetHomeBg extends AsyncTask<Void, Void, Void> {
